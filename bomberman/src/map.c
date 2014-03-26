@@ -59,6 +59,7 @@ void map_free(struct map* map)
 {
 	if (map == NULL )
 		return;
+	map->bomb_list=list_delete(map->bomb_list);
 	free(map->grid);
 	free(map);
 }

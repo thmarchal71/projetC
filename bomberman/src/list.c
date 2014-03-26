@@ -6,82 +6,104 @@ struct list* list_new()
 	return NULL;
 }
 
-struct list* list_get_tail(struct list* l)
+struct list* list_insert_head(struct list* l, int x, int y, void* data)
 {
-	if(l != NULL)
-		while(l->next != NULL)
-			l = l->next;
-	return l;
+	struct list* tmp = malloc( sizeof(*tmp) );
+	tmp->data = data;
+	tmp->x = x;
+	tmp->y = y;
+	tmp->next = l;
+    return tmp;
 }
 
 struct list* list_insert_tail(struct list* l, int x, int y, void* data)
 {
-	struct list* list_new = l;
 	struct list* tmp = malloc( sizeof(*tmp) );
 	tmp->data = data;
 	tmp->x = x;
 	tmp->y = y;
 	tmp->next = NULL;
 
-	if( l != NULL ){
-		l = list_get_tail(l);
-		l->next = tmp;
-	} else {
-		list_new = tmp;
+	if(l == NULL)
+		return tmp;
+	else{
+		struct list* new = l;
+		while(new->next != NULL){
+			new = new->next;
+		}
+		new->next = tmp;
+		return l;
+	}
 }
 
-	return list_new;
-}
 
 struct list* list_find(struct list* l, int x, int y)
 {
-	while(l != NULL)
+	struct list* tmp = l;
+	while(tmp != NULL)
 	{
-		if(l->x == x && l->y == y)
-			break;
-		else
-			l = l->next;
+		if(tmp->x == x && tmp->y == y)
+			return tmp;
+		tmp = tmp->next;
 	}
-	return l;
+	return NULL;
 }
 
 struct list* list_find_delete(struct list* l, int x, int y)
 {
-	struct list* tmp = l;
-	struct list* list_n = list_new();
-
-	while(l != NULL)
-	{
-		if(l->x != x || l->y != y) {
-			list_n = list_insert_tail(list_n, l->x, l->y, l->data);
-		}
-		l = l->next;
+	if(l == NULL)
+	        return NULL;
+	if(l->x == x && l->y == y){
+	        struct list* tmp = l->next;
+	        free(l);
+	        tmp = list_find_delete(tmp, x, y);
+	        return tmp;
+	} else {
+		l->next = list_find_delete(l->next, x, y);
+		return l;
 	}
-
-	tmp = list_delete(tmp);
-
-	return list_n;
 }
 
 struct list* list_delete_head(struct list* l)
 {
-	assert(l);
+	if(l != NULL){
+		struct list* tmp = l->next;
+		free(l);
+		return tmp;
+	}
+	else {
+		return NULL;
+	}
+}
 
-	struct list* head = l;
-
-	if(l != NULL && l->next != NULL)
-		l = l->next;
-	else
-		l = NULL;
-
-	free(head);
-
+struct list* list_delete_tail(struct list* l)
+{
+	if(l == NULL)
+		return NULL;
+	if(l->next == NULL){
+		free(l);
+		return NULL;
+	}
+	struct list* tmp = l;
+	struct list* ptmp = l;
+	while(tmp->next != NULL){
+			ptmp = tmp;
+			tmp = tmp->next;
+	}
+	ptmp->next = NULL;
+	free(tmp);
 	return l;
 }
 
 struct list* list_delete(struct list* l)
 {
-	while(l != NULL)
-		l = list_delete_head(l);
-	return l;
+	if(l == NULL){
+		return NULL;
+	} else {
+		struct list* tmp;
+		tmp = l->next;
+		free(l);
+		return list_delete(tmp);
+	}
 }
+

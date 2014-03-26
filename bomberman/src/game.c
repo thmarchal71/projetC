@@ -81,6 +81,7 @@ void game_display(struct game* game) {
 	game_banner_display(game);
 	level_display(game_get_curr_level(game));
 	player_display(game->player);
+
 	display_bomb(level_get_curr_map(game_get_curr_level(game)));
 
 	window_refresh();
@@ -116,7 +117,7 @@ short input_keyboard(struct game* game) {
 				player_move(player, map);
 				break;
 			case SDLK_SPACE:
-				if (player_get_nb_bomb(player) > 0)
+				if (player_get_nb_bomb(player) > 0 && map_get_cell_type(map, player_get_x(player), player_get_y(player)) != CELL_BOMB)
 					bomb_install(player,map);
 				break;
 			default:
@@ -132,7 +133,5 @@ short input_keyboard(struct game* game) {
 int game_update(struct game* game) {
 	if (input_keyboard(game) == 1)
 		return 1; // exit game
-	if (player_get_invincibleTimer(game->player) > 0)
-		player_dec_invincibleTimer(game->player);
 	return 0;
 }

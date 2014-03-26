@@ -16,11 +16,13 @@ struct list {
 
 
 struct list* list_new();
-struct list* list_get_tail(struct list* l);
+struct list* list_insert_head(struct list* l, int x, int y, void* data);
 struct list* list_insert_tail(struct list* l, int x, int y, void* data);
 struct list* list_find(struct list* l, int x, int y);
 struct list* list_find_delete(struct list* l, int x, int y);
 struct list* list_delete_head(struct list* l);
+struct list* list_delete_tail(struct list* l);
 struct list* list_delete(struct list* l);
+
 
 #endif

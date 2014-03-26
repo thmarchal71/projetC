@@ -72,11 +72,12 @@ void bomb_install(struct player* player, struct map* map) {
 
 void display_bomb(struct map* map)
 {
-	struct list* bomb_list = map_get_bombs(map);
-	struct bomb* bomb = NULL;
-	while (bomb_list != NULL){
-		bomb = bomb_list->data;
-		if ( SDL_GetTicks() - bomb_get_timer(bomb) < 1000 ) {
+	if(map_get_bombs(map) != NULL){
+		struct list* bomb_list = map_get_bombs(map);
+		struct bomb* bomb = NULL;
+		while (bomb_list != NULL){
+			bomb = bomb_list->data;
+			if ( SDL_GetTicks() - bomb_get_timer(bomb) < 1000 ) {
 				bomb_set_current_state(bomb, STATE1);
 				window_display_image(sprite_get_bomb(bomb_get_current_state(bomb)),
 						bomb_get_x(bomb) * SIZE_BLOC, bomb_get_y(bomb) * SIZE_BLOC);
@@ -94,9 +95,11 @@ void display_bomb(struct map* map)
 										bomb_get_x(bomb) * SIZE_BLOC, bomb_get_y(bomb) * SIZE_BLOC);
 			} else {
 				map_set_cell_type(map, bomb_get_x(bomb), bomb_get_y(bomb), CELL_EMPTY);
-				map_set_bombs(map, list_find_delete(map_get_bombs(map), bomb_get_x(bomb), bomb_get_y(bomb)));
+				map_set_bombs(map, list_find_delete(map_get_bombs(map),bomb_get_x(bomb), bomb_get_y(bomb)));
 				bomb_list = map_get_bombs(map);
 			}
-	bomb_list = bomb_list->next;
+			if (map_get_bombs(map) != NULL)
+				bomb_list = bomb_list->next;
+		}
 	}
 }

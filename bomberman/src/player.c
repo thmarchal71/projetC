@@ -268,5 +268,7 @@ void player_display(struct player* player) {
 	assert(player);
 	window_display_image(sprite_get_player(player->current_way),
 			player->x * SIZE_BLOC, player->y * SIZE_BLOC);
+	if (player_get_invincibleTimer(player) > 0)
+			player_dec_invincibleTimer(player);
 }
 
