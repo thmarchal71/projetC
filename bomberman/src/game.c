@@ -81,6 +81,7 @@ void game_display(struct game* game) {
 	game_banner_display(game);
 	level_display(game_get_curr_level(game));
 	player_display(game->player);
+	display_bomb(level_get_curr_map(game_get_curr_level(game)));
 
 	window_refresh();
 }
@@ -115,8 +116,8 @@ short input_keyboard(struct game* game) {
 				player_move(player, map);
 				break;
 			case SDLK_SPACE:
-				plant_bomb(player,map);
-
+				if (player_get_nb_bomb(player) > 0)
+					bomb_install(player,map);
 				break;
 			default:
 				break;

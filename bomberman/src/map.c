@@ -6,6 +6,7 @@
 #include <bomb.h>
 #include <map.h>
 #include <constant.h>
+#include <list.h>
 #include <misc.h>
 #include <sprite.h>
 #include <window.h>
@@ -14,7 +15,7 @@ struct map {
 	int width;
 	int height;
 	char* grid;
-	struct bomb* bomb;
+	struct list* bomb_list;
 };
 
 #define CELL(i,j) (i +  map->width * j)
@@ -35,6 +36,8 @@ struct map* map_new(int width, int height)
 		error("map_new : malloc grid failed");
 	}
 
+	map->bomb_list = list_new();
+
 	// Grid cleaning
 	int i, j;
 	for (i = 0; i < width; i++)
@@ -44,22 +47,12 @@ struct map* map_new(int width, int height)
 	return map;
 }
 
-void map_set_bomb(struct map* map, struct bomb* bomb) {
-	assert(map);
-	map->bomb = bomb;
-}
-
 int map_is_inside(struct map* map, int x, int y)
 {
 	assert(map);
 	if ( 0<=x && x<=11 && 0<=y && y<=11 )
 		return 1;
 	return 0;
-}
-
-struct bomb* map_get_bomb(struct map* map) {
-	assert(map);
-	return map->bomb;
 }
 
 void map_free(struct map* map)
@@ -105,6 +98,46 @@ void map_set_cell_type(struct map* map, int x, int y, enum cell_type type)
 	assert(map && map_is_inside(map, x, y));
 	map->grid[CELL(x,y)] = type;
 }
+
+struct list* map_get_bombs(struct map* map)
+{
+	assert(map);
+	return map->bomb_list;
+}
+
+void map_set_bombs(struct map* map, struct list* l_bomb)
+{
+	assert(map);
+	map->bomb_list = l_bomb;
+}
+
+void map_insert_bomb(struct map* map, int x, int y, void* data)
+{
+	map->bomb_list = list_insert_tail(map->bomb_list, x, y, data);
+}
+
+void map_case_explosion(struct map* map, int x, int y)
+{
+	assert(map && map_is_inside(map, x, y));
+
+	int r = rand()%(99);
+
+	if(0 <= r && r < 30)
+		map_set_cell_type(map, x, y, CELL_EMPTY);
+	else if( 30 <= r && r < 35 )
+		map_set_cell_type(map, x, y, (CELL_BONUS|(BONUS_LIFE << 4)));
+	else if( 35 <= r && r < 40 )
+		map_set_cell_type(map, x, y, CELL_MONSTER);
+	else if( 40 <= r && r < 55 )
+		map_set_cell_type(map, x, y, (CELL_BONUS|(BONUS_BOMB_RANGE_INC << 4)));
+	else if( 55 <= r && r < 70 )
+		map_set_cell_type(map, x, y, (CELL_BONUS|(BONUS_BOMB_RANGE_DEC << 4)));
+	else if( 70 <= r && r < 85 )
+		map_set_cell_type(map, x, y, (CELL_BONUS|(BONUS_BOMB_NB_INC << 4)));
+	else if( 85 <= r && r < 100 )
+		map_set_cell_type(map, x, y, (CELL_BONUS|(BONUS_BOMB_NB_DEC << 4)));
+}
+
 
 void display_bonus(struct map* map, int x, int y, char type)
 {
@@ -163,9 +196,6 @@ void map_display(struct map* map)
 				break;
 			case CELL_CASE:
 				window_display_image(sprite_get_box(), x, y);
-				break;
-			case CELL_BOMB:
-				display_bomb(map->bomb, map);
 				break;
 			case CELL_BONUS:
 				display_bonus(map, x, y, type);
