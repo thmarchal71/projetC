@@ -123,12 +123,12 @@ void map_case_explosion(struct map* map, int x, int y)
 
 	int r = rand()%(99);
 
-	if(0 <= r && r < 30)
+	if(0 <= r && r < 35)
 		map_set_cell_type(map, x, y, CELL_EMPTY);
-	else if( 30 <= r && r < 35 )
-		map_set_cell_type(map, x, y, (CELL_BONUS|(BONUS_LIFE << 4)));
+//	else if( 30 <= r && r < 35 )
+//		map_set_cell_type(map, x, y, CELL_MONSTER);
 	else if( 35 <= r && r < 40 )
-		map_set_cell_type(map, x, y, CELL_MONSTER);
+		map_set_cell_type(map, x, y, (CELL_BONUS|(BONUS_LIFE << 4)));
 	else if( 40 <= r && r < 55 )
 		map_set_cell_type(map, x, y, (CELL_BONUS|(BONUS_BOMB_RANGE_INC << 4)));
 	else if( 55 <= r && r < 70 )

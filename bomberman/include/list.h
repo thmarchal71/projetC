@@ -16,6 +16,7 @@ struct list {
 
 
 struct list* list_new();
+void* list_data(struct list* l);
 struct list* list_insert_head(struct list* l, int x, int y, void* data);
 struct list* list_insert_tail(struct list* l, int x, int y, void* data);
 struct list* list_find(struct list* l, int x, int y);

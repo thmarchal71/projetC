@@ -11,6 +11,7 @@ struct player* player_init(int bomb_number, int life_number, int range_number);
 void player_free(struct player* player);
 
 int player_get_dead(struct player* player);
+void player_set_dead(struct player* player);
 
 // Returns the current position of the player
 int player_get_x(struct player* player);
@@ -19,6 +20,7 @@ int player_get_y(struct player* player);
 // Returns, Decrease the invincible timer of the player
 int player_get_invincibleTimer(struct player* player);
 void player_dec_invincibleTimer(struct player* player);
+void player_set_invincible(struct player* player, int n);
 
 // Set the direction of the next move of the player
 void player_set_current_way(struct player* player, way_t way);

@@ -31,10 +31,14 @@
 #define BANNER_9		"sprite/banner_9.jpg"
 
 // Sprites of Bombs
+#define BOMB_TTL0		"sprite/explosion.png"
 #define BOMB_TTL1       "sprite/bomb1.png"
 #define BOMB_TTL2       "sprite/bomb2.png"
 #define BOMB_TTL3       "sprite/bomb3.png"
 #define BOMB_TTL4       "sprite/bomb4.png"
+#define BOMB_TTL5       "sprite/bomb5.png"
+#define BOMB_TTL6       "sprite/bomb6.png"
+#define BOMB_TTL7       "sprite/bomb7.png"
 
 // Sprites of Bonus
 #define IMG_BONUS_BOMB_RANGE_INC  "sprite/bonus_bomb_range_inc.png"
@@ -72,7 +76,7 @@ SDL_Surface* bonus[NB_BONUS];
 SDL_Surface* player_img[4];
 
 // bomb
-SDL_Surface* bomb_img[4];
+SDL_Surface* bomb_img[8];
 
 void banner_load() {
 	// numbers imgs
@@ -147,14 +151,18 @@ void player_load() {
 }
 
 void bomb_load() {
-	bomb_img[STATE1] = load_image(BOMB_TTL4);
-	bomb_img[STATE2] = load_image(BOMB_TTL3);
-	bomb_img[STATE3] = load_image(BOMB_TTL2);
-	bomb_img[STATE4] = load_image(BOMB_TTL1);
+	bomb_img[STATE1] = load_image(BOMB_TTL7);
+	bomb_img[STATE2] = load_image(BOMB_TTL6);
+	bomb_img[STATE3] = load_image(BOMB_TTL5);
+	bomb_img[STATE4] = load_image(BOMB_TTL4);
+	bomb_img[STATE5] = load_image(BOMB_TTL3);
+	bomb_img[STATE6] = load_image(BOMB_TTL2);
+	bomb_img[STATE7] = load_image(BOMB_TTL1);
+	bomb_img[STATE8] = load_image(BOMB_TTL0);
 }
 
 void bomb_unload() {
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 8; i++)
 		SDL_FreeSurface(bomb_img[i]);
 }
 

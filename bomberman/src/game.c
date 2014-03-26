@@ -81,8 +81,7 @@ void game_display(struct game* game) {
 	game_banner_display(game);
 	level_display(game_get_curr_level(game));
 	player_display(game->player);
-
-	display_bomb(level_get_curr_map(game_get_curr_level(game)));
+	bomb_display(level_get_curr_map(game_get_curr_level(game)),game->player);
 
 	window_refresh();
 }
@@ -100,6 +99,14 @@ short input_keyboard(struct game* game) {
 			switch (event.key.keysym.sym) {
 			case SDLK_ESCAPE:
 				return 1;
+			case SDLK_p:
+				if(player_get_range(player) < 9)
+					player_inc_range(player);
+				break;
+			case SDLK_o:
+				if(player_get_range(player) > 1)
+					player_dec_range(player);
+				break;
 			case SDLK_UP:
 				player_set_current_way(player, NORTH);
 				player_move(player, map);

@@ -28,7 +28,11 @@ typedef enum state {
 	STATE1 = 0,
 	STATE2, // 1
 	STATE3, // 2
-	STATE4 //3
+	STATE4, // 3
+	STATE5,
+	STATE6,
+	STATE7,
+	STATE8// 4
 } state_t;
 
 #endif /* CONSTANT */

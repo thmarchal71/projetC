@@ -42,6 +42,11 @@ int player_get_dead(struct player* player) {
 	return player->dead;
 }
 
+void player_set_dead(struct player* player) {
+	assert(player != NULL);
+	player->dead = 1;
+}
+
 int player_get_invincibleTimer(struct player* player) {
 	assert(player != NULL);
 	return player->invincibleTimer;
@@ -50,6 +55,11 @@ int player_get_invincibleTimer(struct player* player) {
 void player_dec_invincibleTimer(struct player* player) {
 	assert(player);
 	player->invincibleTimer -= 1;
+}
+
+void player_set_invincible(struct player* player, int n) {
+	assert(player);
+	player->invincibleTimer = n;
 }
 
 int player_get_x(struct player* player) {
@@ -66,6 +76,7 @@ void player_set_current_way(struct player* player, enum way way) {
 	assert(player);
 	player->current_way = way;
 }
+
 
 int player_get_nb_bomb(struct player* player) {
 	assert(player);

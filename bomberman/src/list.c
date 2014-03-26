@@ -16,6 +16,10 @@ struct list* list_insert_head(struct list* l, int x, int y, void* data)
     return tmp;
 }
 
+void* list_data(struct list* l){
+	return l->data;
+}
+
 struct list* list_insert_tail(struct list* l, int x, int y, void* data)
 {
 	struct list* tmp = malloc( sizeof(*tmp) );
