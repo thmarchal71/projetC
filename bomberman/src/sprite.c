@@ -31,7 +31,9 @@
 #define BANNER_9		"sprite/banner_9.jpg"
 
 // Sprites of Bombs
-#define BOMB_TTL0		"sprite/explosion.png"
+#define BOMB_TTL000		"sprite/explosion0.png"
+#define BOMB_TTL00		"sprite/explosion1.png"
+#define BOMB_TTL0		"sprite/explosion2.png"
 #define BOMB_TTL1       "sprite/bomb1.png"
 #define BOMB_TTL2       "sprite/bomb2.png"
 #define BOMB_TTL3       "sprite/bomb3.png"
@@ -84,7 +86,7 @@ SDL_Surface* player_img[4];
 SDL_Surface* player_inv_img[4];
 
 // bomb
-SDL_Surface* bomb_img[9];
+SDL_Surface* bomb_img[11];
 
 void banner_load() {
 	// numbers imgs
@@ -172,10 +174,12 @@ void bomb_load() {
 	bomb_img[STATE6] = load_image(BOMB_TTL2);
 	bomb_img[STATE7] = load_image(BOMB_TTL1);
 	bomb_img[STATE8] = load_image(BOMB_TTL0);
+	bomb_img[STATE9] = load_image(BOMB_TTL00);
+	bomb_img[STATE10] = load_image(BOMB_TTL000);
 }
 
 void bomb_unload() {
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 11; i++)
 		SDL_FreeSurface(bomb_img[i]);
 }
 

@@ -113,9 +113,15 @@ void bomb_display(struct map* map, struct player* player) {
 				bomb_set_current_state(bomb, STATE7);
 				window_display_image(sprite_get_bomb(bomb_get_current_state(bomb)),
 										bomb_get_x(bomb) * SIZE_BLOC, bomb_get_y(bomb) * SIZE_BLOC);
+			} else if ( SDL_GetTicks() - bomb_get_timer(bomb) < 1633 ) {
+				bomb_set_current_state(bomb, STATE8);		// Display the flames
+				bomb_flame_display(map,player,bomb);
+			} else if ( SDL_GetTicks() - bomb_get_timer(bomb) < 1666 ) {
+				bomb_set_current_state(bomb, STATE9);
+				bomb_flame_display(map,player,bomb);
 			} else if ( SDL_GetTicks() - bomb_get_timer(bomb) < 1700 ) {
-				bomb_set_current_state(bomb, STATE8);
-				bomb_flame_display(map,player,bomb);															// Display the flames
+				bomb_set_current_state(bomb, STATE10);
+				bomb_flame_display(map,player,bomb);
 			} else {
 				map_set_cell_type(map, bomb_get_x(bomb), bomb_get_y(bomb), CELL_EMPTY);							// Reset the CELL
 				bomb_destruct(map, player, bomb);																// Destruction of the elements
