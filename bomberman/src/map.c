@@ -121,11 +121,11 @@ void map_case_explosion(struct map* map, int x, int y)
 {
 	assert(map && map_is_inside(map, x, y));
 
-	int r = rand()%(99);
+	int r = rand()%(99);							// Picks a random number between 0 and 99
 
 	if(0 <= r && r < 35)
 		map_set_cell_type(map, x, y, CELL_EMPTY);
-//	else if( 30 <= r && r < 35 )
+//	else if( 30 <= r && r < 35 )			à remettre quand les monstres seront gérés et changer le r précédent 35 -> 30
 //		map_set_cell_type(map, x, y, CELL_MONSTER);
 	else if( 35 <= r && r < 40 )
 		map_set_cell_type(map, x, y, (CELL_BONUS|(BONUS_LIFE << 4)));
@@ -201,15 +201,15 @@ void map_display(struct map* map)
 			case CELL_BONUS:
 				display_bonus(map, x, y, type);
 				break;
-			case CELL_KEY:
-				window_display_image(sprite_get_key(), x, y);
-				break;
+//			case CELL_KEY:
+//				window_display_image(sprite_get_key(), x, y);
+//				break;
 			case CELL_DOOR:
 				window_display_image(sprite_get_door(), x, y);
 				break;
-			case CELL_CLOSED_DOOR:
-				window_display_image(sprite_get_closed_door(), x, y);
-				break;
+//			case CELL_CLOSED_DOOR:
+//				window_display_image(sprite_get_closed_door(), x, y);
+//				break;
 			}
 		}
 

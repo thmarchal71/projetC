@@ -39,6 +39,7 @@
 #define BOMB_TTL5       "sprite/bomb5.png"
 #define BOMB_TTL6       "sprite/bomb6.png"
 #define BOMB_TTL7       "sprite/bomb7.png"
+#define BOMB_TTL8       "sprite/bomb8.png"
 
 // Sprites of Bonus
 #define IMG_BONUS_BOMB_RANGE_INC  "sprite/bonus_bomb_range_inc.png"
@@ -51,6 +52,11 @@
 #define PLAYER_UP       "sprite/player_up.png"
 #define PLAYER_RIGHT    "sprite/player_right.png"
 #define PLAYER_DOWN     "sprite/player_down.png"
+
+#define PLAYER_INV_LEFT     "sprite/player_inv_left.png"
+#define PLAYER_INV_UP       "sprite/player_inv_up.png"
+#define PLAYER_INV_RIGHT    "sprite/player_inv_right.png"
+#define PLAYER_INV_DOWN     "sprite/player_inv_down.png"
 
 // banner
 SDL_Surface* numbers[10];
@@ -75,8 +81,10 @@ SDL_Surface* bonus[NB_BONUS];
 // player
 SDL_Surface* player_img[4];
 
+SDL_Surface* player_inv_img[4];
+
 // bomb
-SDL_Surface* bomb_img[8];
+SDL_Surface* bomb_img[9];
 
 void banner_load() {
 	// numbers imgs
@@ -148,9 +156,14 @@ void player_load() {
 	player_img[EAST] = load_image(PLAYER_RIGHT);
 	player_img[NORTH] = load_image(PLAYER_UP);
 	player_img[SOUTH] = load_image(PLAYER_DOWN);
+	player_inv_img[WEST] = load_image(PLAYER_INV_LEFT);
+	player_inv_img[EAST] = load_image(PLAYER_INV_RIGHT);
+	player_inv_img[NORTH] = load_image(PLAYER_INV_UP);
+	player_inv_img[SOUTH] = load_image(PLAYER_INV_DOWN);
 }
 
 void bomb_load() {
+	bomb_img[STATE0] = load_image(BOMB_TTL8);
 	bomb_img[STATE1] = load_image(BOMB_TTL7);
 	bomb_img[STATE2] = load_image(BOMB_TTL6);
 	bomb_img[STATE3] = load_image(BOMB_TTL5);
@@ -162,13 +175,15 @@ void bomb_load() {
 }
 
 void bomb_unload() {
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 9; i++)
 		SDL_FreeSurface(bomb_img[i]);
 }
 
 void player_unload() {
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 4; i++){
 		SDL_FreeSurface(player_img[i]);
+		SDL_FreeSurface(player_inv_img[i]);
+	}
 }
 
 void sprite_load() {
@@ -195,6 +210,11 @@ SDL_Surface* sprite_get_number(short number) {
 SDL_Surface* sprite_get_player(enum way direction) {
 	assert(player_img[direction]);
 	return player_img[direction];
+}
+
+SDL_Surface* sprite_get_inv_player(enum way direction) {
+	assert(player_inv_img[direction]);
+	return player_inv_img[direction];
 }
 
 SDL_Surface* sprite_get_bomb(enum state state) {

@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
 		done = game_update(game);
 		game_display(game);
 
-		if ( player_get_dead(game_get_player(game))) {
+		if ( player_get_dead(game_get_player(game))) {		// Reset the game if the player is dead
 			game_free(game);
 			game=game_new();
 		}

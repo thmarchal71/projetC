@@ -10,9 +10,9 @@ typedef enum cell_type {
 	CELL_BONUS, // 5
 	CELL_MONSTER, // 6
 	CELL_BOMB, // 7
-	CELL_KEY, // 8
+//	CELL_KEY, // 8
 	CELL_DOOR, // 9
-	CELL_CLOSED_DOOR // 10
+//	CELL_CLOSED_DOOR // 10
 } cell_type_t;
 
 typedef enum bonus_type {
@@ -30,19 +30,19 @@ enum scenery_type {
 };
 
 enum compose_type {
-	CELL_STONE = CELL_SCENERY | (SCENERY_STONE << 4), // 0010 0000
-	CELL_TREE = CELL_SCENERY | (SCENERY_TREE << 4), // 0010 0001
-	CELL_CASE_BOMBINC = CELL_CASE | (BONUS_BOMB_NB_INC << 4), // 0100 0010
-    CELL_CASE_BOMBDEC = CELL_CASE | (BONUS_BOMB_NB_DEC << 4), // 0100 0011
-    CELL_CASE_RANGEINC = CELL_CASE | (BONUS_BOMB_RANGE_INC << 4), // 0100 0000
-    CELL_CASE_RANGEDEC = CELL_CASE | (BONUS_BOMB_RANGE_DEC << 4), // 0100 0001
-    CELL_CASE_LIFE = CELL_CASE | (BONUS_LIFE << 4), // 0100 0100
-    CELL_CASE_MONSTER = CELL_CASE | (BONUS_MONSTER << 4), // 0100 0101
-    CELL_BONUS_BOMBINC = CELL_BONUS | (BONUS_BOMB_NB_INC << 4),
-    CELL_BONUS_BOMBDEC = CELL_BONUS | (BONUS_BOMB_NB_DEC << 4),
-    CELL_BONUS_RANGEINC = CELL_BONUS | (BONUS_BOMB_RANGE_INC << 4),
-    CELL_BONUS_RANGEDEC = CELL_BONUS | (BONUS_BOMB_RANGE_DEC << 4),
-    CELL_BONUS_LIFE = CELL_BONUS | (BONUS_LIFE << 4)//bonus sur la map
+	CELL_STONE = CELL_SCENERY | (SCENERY_STONE << 4), 				// 0000 0010 -> 2
+	CELL_TREE = CELL_SCENERY | (SCENERY_TREE << 4), 				// 0001 0010 -> 18
+	CELL_CASE_BOMBINC = CELL_CASE | (BONUS_BOMB_NB_INC << 4), 		// 0011 0100 -> 52
+    CELL_CASE_BOMBDEC = CELL_CASE | (BONUS_BOMB_NB_DEC << 4), 		// 0100 0100 -> 68
+    CELL_CASE_RANGEINC = CELL_CASE | (BONUS_BOMB_RANGE_INC << 4), 	// 0001 0100 -> 20
+    CELL_CASE_RANGEDEC = CELL_CASE | (BONUS_BOMB_RANGE_DEC << 4), 	// 0010 0100 -> 36
+    CELL_CASE_LIFE = CELL_CASE | (BONUS_LIFE << 4), 				// 0101 0100 -> 84
+    CELL_CASE_MONSTER = CELL_CASE | (BONUS_MONSTER << 4),			// 0110 0100 -> 100
+    CELL_BONUS_BOMBINC = CELL_BONUS | (BONUS_BOMB_NB_INC << 4), 	// 0011 0101 -> 53
+    CELL_BONUS_BOMBDEC = CELL_BONUS | (BONUS_BOMB_NB_DEC << 4), 	// 0100 0101 -> 69
+    CELL_BONUS_RANGEINC = CELL_BONUS | (BONUS_BOMB_RANGE_INC << 4), // 0001 0101 -> 21
+    CELL_BONUS_RANGEDEC = CELL_BONUS | (BONUS_BOMB_RANGE_DEC << 4), // 0010 0101 -> 37
+    CELL_BONUS_LIFE = CELL_BONUS | (BONUS_LIFE << 4) 				// 0101 0101 -> 85
 };
 
 struct map;
@@ -70,19 +70,16 @@ int map_is_inside(struct map* map, int x, int y);
 // Return a default 12x12 static map
 struct map* map_get_default();
 
-struct bomb* map_get_bomb(struct map* map);
-
-void map_set_bomb(struct map* map, struct bomb* bomb);
-
-// Get, set a bomb list or insert a bomb
+// Return the bomb list of the map
 struct list* map_get_bombs(struct map* map);
+
+// Change the bomb list of the map
 void map_set_bombs(struct map* map, struct list* bomb);
+
+// Insert a bomb in the map bomb list
 void map_insert_bomb(struct map* map, int x, int y, void* data);
 
-// Display the bomb on the screen
-
-
-// Return a bonus after the explosion of a case
+// Display a bonus after the explosion of a case
 void map_case_explosion(struct map* map, int x, int y);
 
 // Display the map on the screen

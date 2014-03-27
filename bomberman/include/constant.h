@@ -25,14 +25,15 @@ typedef enum way {
 } way_t;
 
 typedef enum state {
-	STATE1 = 0,
-	STATE2, // 1
-	STATE3, // 2
-	STATE4, // 3
+	STATE0 = 0,
+	STATE1, // 1
+	STATE2, // 2
+	STATE3, // 3
+	STATE4, // 4
 	STATE5,
 	STATE6,
 	STATE7,
-	STATE8// 4
+	STATE8
 } state_t;
 
 #endif /* CONSTANT */

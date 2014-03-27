@@ -16,7 +16,8 @@ struct list* list_insert_head(struct list* l, int x, int y, void* data)
     return tmp;
 }
 
-void* list_data(struct list* l){
+void* list_data(struct list* l)
+{
 	return l->data;
 }
 
