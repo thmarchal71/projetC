@@ -2,6 +2,7 @@
 #include <time.h>
 
 #include <bomb.h>
+#include <monster.h>
 #include <game.h>
 #include <misc.h>
 #include <window.h>
@@ -82,6 +83,7 @@ void game_display(struct game* game) {
 	level_display(game_get_curr_level(game));
 	player_display(game->player);
 	bomb_display(level_get_curr_map(game_get_curr_level(game)),game->player);
+	monster_display(level_get_curr_map(game_get_curr_level(game)),game->player);
 
 	window_refresh();
 }

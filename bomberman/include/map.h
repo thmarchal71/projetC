@@ -79,6 +79,10 @@ void map_set_bombs(struct map* map, struct list* bomb);
 // Insert a bomb in the map bomb list
 void map_insert_bomb(struct map* map, int x, int y, void* data);
 
+struct list* map_get_monsters(struct map* map);
+void map_set_monsters(struct map* map, struct list* monster);
+void map_insert_monster(struct map* map, int x, int y, void* data);
+
 // Display a bonus after the explosion of a case
 void map_case_explosion(struct map* map, int x, int y);
 

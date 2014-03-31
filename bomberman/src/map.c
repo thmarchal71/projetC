@@ -7,6 +7,7 @@
 #include <map.h>
 #include <constant.h>
 #include <list.h>
+#include <monster.h>
 #include <misc.h>
 #include <sprite.h>
 #include <window.h>
@@ -16,6 +17,7 @@ struct map {
 	int height;
 	char* grid;
 	struct list* bomb_list;
+	struct list* monster_list;
 };
 
 #define CELL(i,j) (i +  map->width * j)
@@ -37,6 +39,7 @@ struct map* map_new(int width, int height)
 	}
 
 	map->bomb_list = list_new();
+	map->monster_list = list_new();
 
 	// Grid cleaning
 	int i, j;
@@ -60,6 +63,7 @@ void map_free(struct map* map)
 	if (map == NULL )
 		return;
 	map->bomb_list=list_delete(map->bomb_list);
+	map->monster_list = list_delete(map->monster_list);
 	free(map->grid);
 	free(map);
 }
@@ -117,16 +121,36 @@ void map_insert_bomb(struct map* map, int x, int y, void* data)
 	map->bomb_list = list_insert_tail(map->bomb_list, x, y, data);
 }
 
+struct list* map_get_monsters(struct map* map)
+{
+	assert(map);
+	return map->monster_list;
+}
+
+void map_set_monsters(struct map* map, struct list* l_monster)
+{
+	assert(map);
+	map->monster_list = l_monster;
+}
+
+void map_insert_monster(struct map* map, int x, int y, void* data)
+{
+	map->monster_list = list_insert_tail(map->monster_list, x, y, data);
+}
+
+
 void map_case_explosion(struct map* map, int x, int y)
 {
 	assert(map && map_is_inside(map, x, y));
 
 	int r = rand()%(99);							// Picks a random number between 0 and 99
 
-	if(0 <= r && r < 35)
+	if(0 <= r && r < 30)
 		map_set_cell_type(map, x, y, CELL_EMPTY);
-//	else if( 30 <= r && r < 35 )			à remettre quand les monstres seront gérés et changer le r précédent 35 -> 30
-//		map_set_cell_type(map, x, y, CELL_MONSTER);
+	else if( 30 <= r && r < 35 )	{
+		map_set_cell_type(map, x, y, CELL_EMPTY);
+		monster_init(map, x, y);
+	}
 	else if( 35 <= r && r < 40 )
 		map_set_cell_type(map, x, y, (CELL_BONUS|(BONUS_LIFE << 4)));
 	else if( 40 <= r && r < 55 )
@@ -239,5 +263,7 @@ struct map* map_get_default(void)
 	for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++)
 		map->grid[i] = themap[i];
 
+
+	monster_from_map(map);
 	return map;
 }

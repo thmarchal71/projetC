@@ -3,6 +3,7 @@
 
 #include <map.h>
 #include <bomb.h>
+#include <monster.h>
 #include <list.h>
 #include <player.h>
 #include <sprite.h>
@@ -323,6 +324,7 @@ void bomb_flame_display(struct map* map, struct player* player,struct bomb* bomb
 
 void bomb_destruct(struct map* map, struct player* player,struct bomb* bomb){
 
+	struct monster* monster;
 	if(player_get_x(player)==bomb_get_x(bomb) && player_get_y(player)==bomb_get_y(bomb)){
 		if (player_get_invincibleTimer(player) == 0) {
 			if (player_get_nb_life(player) == 0 ) {
@@ -360,7 +362,8 @@ void bomb_destruct(struct map* map, struct player* player,struct bomb* bomb){
 				break;
 
 			case CELL_MONSTER:
-				map_set_cell_type(map, bomb->x +i, bomb->y, CELL_EMPTY);
+				monster=monster_find(map, bomb->x +i, bomb->y);
+				monster_set_dead(monster);
 				i = bomb->range +1;
 				break;
 
@@ -413,7 +416,8 @@ void bomb_destruct(struct map* map, struct player* player,struct bomb* bomb){
 				break;
 
 			case CELL_MONSTER:
-				map_set_cell_type(map, bomb->x -i, bomb->y, CELL_EMPTY);
+				monster=monster_find(map, bomb->x -i, bomb->y);
+				monster_set_dead(monster);
 				i = bomb->range +1;
 				break;
 
@@ -466,7 +470,8 @@ void bomb_destruct(struct map* map, struct player* player,struct bomb* bomb){
 				break;
 
 			case CELL_MONSTER:
-				map_set_cell_type(map, bomb->x, bomb->y +i, CELL_EMPTY);
+				monster=monster_find(map, bomb->x , bomb->y +i);
+				monster_set_dead(monster);
 				i = bomb->range +1;
 				break;
 
@@ -519,7 +524,8 @@ void bomb_destruct(struct map* map, struct player* player,struct bomb* bomb){
 				break;
 
 			case CELL_MONSTER:
-				map_set_cell_type(map, bomb->x, bomb->y -i, CELL_EMPTY);
+				monster=monster_find(map, bomb->x , bomb->y +i);
+				monster_set_dead(monster);
 				i = bomb->range +1;
 				break;
 

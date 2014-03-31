@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stddef.h> // NULL (macos)
 #include <level.h>
+#include <monster.h>
 #include <game.h>
 #include <map.h>
 
@@ -19,6 +20,7 @@ struct level* level_get_level(int num) {
 		level->cur_map = 0;
 		level->maps = malloc(sizeof(*level->maps));
 		level->maps[0] = map_get_default();
+
 		return level;
 		break;
 	}
