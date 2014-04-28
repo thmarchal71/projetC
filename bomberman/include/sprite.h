@@ -22,6 +22,8 @@ SDL_Surface* sprite_get_range_inc();
 SDL_Surface* sprite_get_range_dec();
 SDL_Surface* sprite_get_nb_inc();
 SDL_Surface* sprite_get_nb_dec();
+SDL_Surface* sprite_get_flag();
+SDL_Surface* sprite_get_peach();
 
 
 SDL_Surface* sprite_get_number(short number);

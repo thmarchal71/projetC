@@ -8,6 +8,9 @@
 
 #define MAP_1_1             "data/map_1_1.lvl"
 #define MAP_1_2             "data/map_1_2.lvl"
+#define MAP_1_3             "data/map_1_3.lvl"
+#define MAP_1_4             "data/map_1_4.lvl"
+#define MAP_1_5             "data/map_1_5.lvl"
 
 // Size (# of pixels) of banner
 #define LINE_HEIGHT			4

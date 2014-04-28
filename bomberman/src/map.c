@@ -223,6 +223,19 @@ void display_scenery(struct map* map, int x, int  y, char type)
 	}
 }
 
+void display_goal(struct map* map, int x, int  y, char type)
+{
+	switch (type >> 4) { // sub-types are encoded with the 4 most significant bits
+	case FLAG:
+		window_display_image(sprite_get_flag(), x, y);
+		break;
+
+	case PEACH:
+		window_display_image(sprite_get_peach(), x, y);
+		break;
+	}
+}
+
 void display_door(struct map* map, int x, int  y, char type)
 {
 	switch (type >> 7) { // sub-types are encoded with the 4 most significant bits
@@ -263,6 +276,9 @@ void map_display(struct map* map)
 				break;
 			case CELL_KEY:
 				window_display_image(sprite_get_key(), x, y);
+				break;
+			case CELL_GOAL:
+				display_goal(map, x, y, type);
 				break;
 			case CELL_DOOR:
 				display_door(map, x, y, type);

@@ -10,6 +10,10 @@
 #define MAP_DOOR		"sprite/door.png"
 #define MAP_CLOSED_DOOR	"sprite/closed_door.png"
 
+#define MAP_FLAG	"sprite/flag.png"
+#define MAP_PEACH	"sprite/peach.png"
+
+
 // Scenery elements
 #define MAP_STONE		"sprite/stone.png"
 #define MAP_TREE        "sprite/tree.png"
@@ -91,6 +95,8 @@ SDL_Surface* range_inc;
 SDL_Surface* range_dec;
 SDL_Surface* nb_inc;
 SDL_Surface* nb_dec;
+SDL_Surface* flag;
+SDL_Surface* peach;
 
 // player
 SDL_Surface* player_img[4];
@@ -156,6 +162,8 @@ void map_load() {
 	range_dec = load_image(IMG_BONUS_BOMB_RANGE_DEC);
 	nb_inc = load_image(IMG_BONUS_BOMB_NB_INC);
 	nb_dec = load_image(IMG_BONUS_BOMB_NB_DEC);
+	flag = load_image(MAP_FLAG);
+	peach = load_image(MAP_PEACH);
 }
 
 void map_unload() {
@@ -170,6 +178,8 @@ void map_unload() {
 	SDL_FreeSurface(range_dec);
 	SDL_FreeSurface(nb_inc);
 	SDL_FreeSurface(nb_dec);
+	SDL_FreeSurface(flag);
+	SDL_FreeSurface(peach);
 }
 
 void player_load() {
@@ -278,6 +288,16 @@ SDL_Surface* sprite_get_banner_bomb() {
 SDL_Surface* sprite_get_pause() {
 	assert(pause);
 	return pause;
+}
+
+SDL_Surface* sprite_get_flag() {
+	assert(flag);
+	return flag;
+}
+
+SDL_Surface* sprite_get_peach() {
+	assert(peach);
+	return peach;
 }
 
 SDL_Surface* sprite_get_banner_line() {

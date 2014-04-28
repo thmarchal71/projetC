@@ -23,6 +23,11 @@ enum bonus_type {
 	MONSTER_INC, // 5
 };
 
+enum goal_type {
+	FLAG,
+	PEACH,
+};
+
 enum scenery_type {
 	SCENERY_STONE, // 0
 	SCENERY_TREE, // 1
@@ -71,6 +76,8 @@ enum compose_type {
     CELL_DOOR_OPENED_6 = CELL_DOOR | (OPENED_DOOR << 7) | (DOOR_6 << 4),
     CELL_DOOR_CLOSED_7 = CELL_DOOR | (CLOSED_DOOR << 7) | (DOOR_7 << 4),
     CELL_DOOR_OPENED_7 = CELL_DOOR | (OPENED_DOOR << 7) | (DOOR_7 << 4),
+    CELL_GOAL_FLAG = CELL_GOAL | (FLAG << 4),
+    CELL_GOAL_PEACH = CELL_GOAL | (PEACH << 4),
 };
 
 struct map;
