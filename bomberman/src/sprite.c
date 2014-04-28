@@ -87,10 +87,10 @@ SDL_Surface* door;
 SDL_Surface* closed_door;
 SDL_Surface* stone;
 SDL_Surface* tree;
-
-// bonus
-#define NB_BONUS 4
-SDL_Surface* bonus[NB_BONUS];
+SDL_Surface* range_inc;
+SDL_Surface* range_dec;
+SDL_Surface* nb_inc;
+SDL_Surface* nb_dec;
 
 // player
 SDL_Surface* player_img[4];
@@ -152,6 +152,10 @@ void map_load() {
 	stone = load_image(MAP_STONE);
 	door = load_image(MAP_DOOR);
 	closed_door = load_image(MAP_CLOSED_DOOR);
+	range_inc = load_image(IMG_BONUS_BOMB_RANGE_INC);
+	range_dec = load_image(IMG_BONUS_BOMB_RANGE_DEC);
+	nb_inc = load_image(IMG_BONUS_BOMB_NB_INC);
+	nb_dec = load_image(IMG_BONUS_BOMB_NB_DEC);
 }
 
 void map_unload() {
@@ -162,18 +166,10 @@ void map_unload() {
 	SDL_FreeSurface(stone);
 	SDL_FreeSurface(door);
 	SDL_FreeSurface(closed_door);
-}
-
-void bonus_load() {
-	bonus[BONUS_BOMB_RANGE_INC] = load_image(IMG_BONUS_BOMB_RANGE_INC);
-	bonus[BONUS_BOMB_RANGE_DEC] = load_image(IMG_BONUS_BOMB_RANGE_DEC);
-	bonus[BONUS_BOMB_NB_INC] = load_image(IMG_BONUS_BOMB_NB_INC);
-	bonus[BONUS_BOMB_NB_DEC] = load_image(IMG_BONUS_BOMB_NB_DEC);
-}
-
-void bonus_unload() {
-	for (int i = 0; i < NB_BONUS; i++)
-		SDL_FreeSurface(bonus[i]);
+	SDL_FreeSurface(range_inc);
+	SDL_FreeSurface(range_dec);
+	SDL_FreeSurface(nb_inc);
+	SDL_FreeSurface(nb_dec);
 }
 
 void player_load() {
@@ -228,7 +224,6 @@ void monster_unload() {
 
 void sprite_load() {
 	map_load();
-	bonus_load();
 	pause_load();
 	banner_load();
 	player_load();
@@ -238,7 +233,6 @@ void sprite_load() {
 
 void sprite_free() {
 	map_unload();
-	bonus_unload();
 	pause_unload();
 	banner_unload();
 	player_unload();
@@ -296,11 +290,6 @@ SDL_Surface* sprite_get_banner_range() {
 	return banner_range;
 }
 
-SDL_Surface* sprite_get_bonus(bonus_type_t bonus_type) {
-	assert(bonus[bonus_type]);
-	return bonus[bonus_type];
-}
-
 SDL_Surface* sprite_get_tree() {
 	assert(tree);
 	return tree;
@@ -329,4 +318,24 @@ SDL_Surface* sprite_get_door() {
 SDL_Surface* sprite_get_closed_door() {
 	assert(closed_door);
 	return closed_door;
+}
+
+SDL_Surface* sprite_get_range_inc() {
+	assert(range_inc);
+	return range_inc;
+}
+
+SDL_Surface* sprite_get_range_dec() {
+	assert(range_dec);
+	return range_dec;
+}
+
+SDL_Surface* sprite_get_nb_inc() {
+	assert(nb_inc);
+	return nb_inc;
+}
+
+SDL_Surface* sprite_get_nb_dec() {
+	assert(nb_dec);
+	return nb_dec;
 }

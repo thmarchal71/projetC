@@ -173,15 +173,15 @@ void map_case_explosion(struct map* map, int x, int y)
 		monster_init(map, x, y);
 	}
 	else if( 35 <= r && r < 40 )
-		map_set_cell_type(map, x, y, (CELL_BONUS|(BONUS_LIFE << 4)));
+		map_set_cell_type(map, x, y, (CELL_BONUS|(LIFE << 4)));
 	else if( 40 <= r && r < 55 )
-		map_set_cell_type(map, x, y, (CELL_BONUS|(BONUS_BOMB_RANGE_INC << 4)));
+		map_set_cell_type(map, x, y, (CELL_BONUS|(RANGE_INC << 4)));
 	else if( 55 <= r && r < 70 )
-		map_set_cell_type(map, x, y, (CELL_BONUS|(BONUS_BOMB_RANGE_DEC << 4)));
+		map_set_cell_type(map, x, y, (CELL_BONUS|(RANGE_DEC << 4)));
 	else if( 70 <= r && r < 85 )
-		map_set_cell_type(map, x, y, (CELL_BONUS|(BONUS_BOMB_NB_INC << 4)));
+		map_set_cell_type(map, x, y, (CELL_BONUS|(NB_INC << 4)));
 	else if( 85 <= r && r < 100 )
-		map_set_cell_type(map, x, y, (CELL_BONUS|(BONUS_BOMB_NB_DEC << 4)));
+		map_set_cell_type(map, x, y, (CELL_BONUS|(NB_DEC << 4)));
 }
 
 
@@ -189,22 +189,22 @@ void display_bonus(struct map* map, int x, int y, char type)
 {
 	// bonus is encoded with the 4 most significant bits
 	switch (type >> 4) {
-	case BONUS_BOMB_RANGE_INC:
-		window_display_image(sprite_get_bonus(BONUS_BOMB_RANGE_INC), x, y);
+	case RANGE_INC:
+		window_display_image(sprite_get_range_inc(), x, y);
 		break;
 
-	case BONUS_BOMB_RANGE_DEC:
-		window_display_image(sprite_get_bonus(BONUS_BOMB_RANGE_DEC), x, y);
+	case RANGE_DEC:
+		window_display_image(sprite_get_range_dec(), x, y);
 		break;
 
-	case BONUS_BOMB_NB_INC:
-		window_display_image(sprite_get_bonus(BONUS_BOMB_NB_INC), x, y);
+	case NB_INC:
+		window_display_image(sprite_get_nb_inc(), x, y);
 		break;
 
-	case BONUS_BOMB_NB_DEC:
-		window_display_image(sprite_get_bonus(BONUS_BOMB_NB_DEC), x, y);
+	case NB_DEC:
+		window_display_image(sprite_get_nb_dec(), x, y);
 		break;
-	case BONUS_LIFE :
+	case LIFE :
 		window_display_image(sprite_get_banner_life(), x, y);
 		break;
 	}
@@ -267,9 +267,6 @@ void map_display(struct map* map)
 			case CELL_DOOR:
 				display_door(map, x, y, type);
 				break;
-//			case CELL_CLOSED_DOOR:
-//				window_display_image(sprite_get_closed_door(), x, y);
-//				break;
 			}
 		}
 
@@ -277,7 +274,7 @@ void map_display(struct map* map)
 }
 
 
-struct map* map_get_default(void)
+/*struct map* map_get_default(void)
 {
 	struct map* map = map_new(MAP_WIDTH, MAP_HEIGHT);
 
@@ -329,23 +326,33 @@ struct map* map_get_nb(void)
 
 	monster_from_map(map);
 	return map;
-}
+}*/
 
 struct map* map_load_from_file(char* data) {
-	int k = 0, width, height;
+	int width, height;
 	FILE *file = fopen(data, "r");
 
 	fscanf(file, "%d:%d\n", &width, &height);
 
 	struct map* map = map_new(width, height);
 
-	for (int i = 0; i < height; i++) {
-		for (int j = 0; j < width; j++) {
-			map->grid[k + j] = fgetc(file) - '0';
+	int type=0;
+
+	for (int i = 0; i < height-1; i++) {
+		for (int j = 0; j < width-1; j++) {
+			fscanf(file, "%d ", &type);
+			map_set_cell_type(map, j, i, type);
 		}
-		k += width;
-		fgetc(file);
+		fscanf(file, "%d\n", &type);
+		map_set_cell_type(map, width-1, i, type);
 	}
+
+	for(int j = 0; j < width-1; j++){
+		fscanf(file, "%d ", &type);
+		map_set_cell_type(map, j, height-1, type);
+	}
+	fscanf(file, "%d", &type);
+	map_set_cell_type(map, width-1, height-1, type);
 	fclose(file);
 
 	monster_from_map(map);

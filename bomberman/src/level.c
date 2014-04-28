@@ -19,7 +19,7 @@ struct level* level_get_level(int num) {
 		level->nb_maps = 2;
 		level->cur_map = 0;
 		level->maps = malloc(sizeof(*level->maps));
-		level->maps[0] = map_get_default();
+		level->maps[0] = map_load_from_file(MAP_1_1);
 		level->maps[1] = map_load_from_file(MAP_1_2);
 
 		return level;

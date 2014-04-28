@@ -184,25 +184,25 @@ static int player_move_aux(struct game* game, struct player* player, struct map*
 
 	case CELL_BONUS:
 		switch (map_get_cell_bonus_type(map, x,  y)) {
-			case BONUS_BOMB_NB_INC:
+			case NB_INC:
 				player_inc_nb_bomb(player);
 				return 1;
 				break;
-			case BONUS_BOMB_NB_DEC:
+			case NB_DEC:
 				if (player_get_nb_bomb(player) > 0)
 					player_dec_nb_bomb(player);
 				return 1;
 				break;
-			case BONUS_BOMB_RANGE_INC:
+			case RANGE_INC:
 				player_inc_range(player);
 				return 1;
 				break;
-			case BONUS_BOMB_RANGE_DEC:
+			case RANGE_DEC:
 				if (player_get_range(player) > 1)
 					player_dec_range(player);
 				return 1;
 				break;
-			case BONUS_LIFE:
+			case LIFE:
 				player_inc_nb_life(player);
 				return 1;
 				break;

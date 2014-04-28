@@ -188,6 +188,7 @@ short input_keyboard(struct game* game) {
 	return 0;
 }
 
+
 int game_update(struct game* game) {
 	if (input_keyboard(game) == 1)
 		return 1; // exit game

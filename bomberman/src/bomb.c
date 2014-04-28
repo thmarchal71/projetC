@@ -133,7 +133,7 @@ void bomb_display(struct map* map, struct player* player) {
 				bomb_destruct(map, player, bomb);																// Destruction of the elements
 				map_set_bombs(map, list_find_delete(map_get_bombs(map),bomb_get_x(bomb), bomb_get_y(bomb)));	// Erase the bomb of the list
 				bomb_list = map_get_bombs(map);	// Reload the list
-				player_inc_nb_bomb(player);
+
 			}
 			if (map_get_bombs(map) != NULL)
 				bomb_list = bomb_list->next;
