@@ -35,5 +35,6 @@ void monster_display(struct map* map, struct player* player);
 
 struct monster* monster_find(struct map* map, int x, int y);
 
+void monster_delay_timer(struct map* map, struct player* player);
 
 #endif /* MONSTER_H_ */

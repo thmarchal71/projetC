@@ -224,3 +224,16 @@ void monster_display(struct map* map, struct player* player) {
 		}
 	}
 }
+
+void monster_delay_timer(struct map* map, struct player* player){
+	struct list* monster_list = map_get_monsters(map);
+	struct monster* monster = NULL;
+	while (monster_list != NULL){
+
+		monster = monster_list->data;
+		monster->timer_monster -= SDL_GetTicks();
+
+		if (map_get_monsters(map) != NULL)
+			monster_list = monster_list->next;
+	}
+}

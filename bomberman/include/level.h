@@ -11,6 +11,8 @@ struct level*  level_get_level(int num);
 // return current map of the level
 struct map* level_get_curr_map(struct level* level);
 
+void level_set_cur_map(struct level* level, int i);
+
 // return map number num of the level
 struct map*  level_get_map(struct level* level, int num);
 

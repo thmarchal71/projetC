@@ -35,6 +35,11 @@ int bomb_get_timer(struct bomb* bomb) {
 	return bomb->timer_bomb;
 }
 
+void bomb_set_timer(struct bomb* bomb, float time) {
+	assert(bomb != NULL);
+	bomb->timer_bomb=time;
+}
+
 enum state bomb_get_current_state(struct bomb* bomb) {
 	assert(bomb);
 	return bomb->current_state;
@@ -127,7 +132,8 @@ void bomb_display(struct map* map, struct player* player) {
 				map_set_cell_type(map, bomb_get_x(bomb), bomb_get_y(bomb), CELL_EMPTY);							// Reset the CELL
 				bomb_destruct(map, player, bomb);																// Destruction of the elements
 				map_set_bombs(map, list_find_delete(map_get_bombs(map),bomb_get_x(bomb), bomb_get_y(bomb)));	// Erase the bomb of the list
-				bomb_list = map_get_bombs(map);																	// Reload the list
+				bomb_list = map_get_bombs(map);	// Reload the list
+				player_inc_nb_bomb(player);
 			}
 			if (map_get_bombs(map) != NULL)
 				bomb_list = bomb_list->next;
@@ -334,7 +340,11 @@ void bomb_destruct(struct map* map, struct player* player,struct bomb* bomb){
 				player_set_invincible(player, 60);
 			}
 		}
-	}																	// Kill the player if he is touched by an explosion
+	}		// Kill the player if he is touched by an explosion
+	if (map_get_cell_type(map, bomb->x , bomb->y)== CELL_MONSTER){
+		monster=monster_find(map, bomb->x, bomb->y);
+		monster_set_dead(monster);
+	}
 	int i;
 	for(i = 1 ; i <= bomb->range ; i++){
 		if (map_is_inside(map, bomb->x +i, bomb->y)){
@@ -551,5 +561,18 @@ void bomb_destruct(struct map* map, struct player* player,struct bomb* bomb){
 				break;
 			}
 		}
+	}
+}
+
+void bomb_delay_timer(struct map* map, struct player* player, int delay){
+	struct list* bomb_list = map_get_bombs(map);
+	struct bomb* bomb = NULL;
+	while (bomb_list != NULL){
+
+		bomb = bomb_list->data;
+		bomb->timer_bomb += delay;
+
+		if (map_get_bombs(map) != NULL)
+			bomb_list = bomb_list->next;
 	}
 }

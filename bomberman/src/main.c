@@ -33,8 +33,8 @@ int main(int argc, char *argv[]) {
 		execution_speed = SDL_GetTicks() - timer;
 		if (execution_speed < ideal_speed)
 			SDL_Delay(ideal_speed - execution_speed); // we are ahead of ideal time. let's wait.
-	}
 
+	}
 	window_free();
 	game_free(game);
 	SDL_Quit();

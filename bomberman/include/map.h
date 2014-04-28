@@ -10,7 +10,7 @@ typedef enum cell_type {
 	CELL_BONUS, // 5
 	CELL_MONSTER, // 6
 	CELL_BOMB, // 7
-//	CELL_KEY, // 8
+	CELL_KEY, // 8
 	CELL_DOOR, // 9
 //	CELL_CLOSED_DOOR // 10
 } cell_type_t;
@@ -29,6 +29,21 @@ enum scenery_type {
 	SCENERY_TREE, // 1
 };
 
+enum door_type {
+	CLOSED_DOOR, // 0
+	OPENED_DOOR, // 1
+};
+
+enum door_number {
+	DOOR_1,
+	DOOR_2,
+	DOOR_3,
+	DOOR_4,
+	DOOR_5,
+	DOOR_6,
+	DOOR_7,
+};
+
 enum compose_type {
 	CELL_STONE = CELL_SCENERY | (SCENERY_STONE << 4), 				// 0000 0010 -> 2
 	CELL_TREE = CELL_SCENERY | (SCENERY_TREE << 4), 				// 0001 0010 -> 18
@@ -42,7 +57,21 @@ enum compose_type {
     CELL_BONUS_BOMBDEC = CELL_BONUS | (BONUS_BOMB_NB_DEC << 4), 	// 0100 0101 -> 69
     CELL_BONUS_RANGEINC = CELL_BONUS | (BONUS_BOMB_RANGE_INC << 4), // 0001 0101 -> 21
     CELL_BONUS_RANGEDEC = CELL_BONUS | (BONUS_BOMB_RANGE_DEC << 4), // 0010 0101 -> 37
-    CELL_BONUS_LIFE = CELL_BONUS | (BONUS_LIFE << 4) 				// 0101 0101 -> 85
+    CELL_BONUS_LIFE = CELL_BONUS | (BONUS_LIFE << 4),				// 0101 0101 -> 85
+    CELL_DOOR_CLOSED_1 = CELL_DOOR | (CLOSED_DOOR << 7) | (DOOR_1 << 4),
+    CELL_DOOR_OPENED_1 = CELL_DOOR | (OPENED_DOOR << 7) | (DOOR_1 << 4),
+    CELL_DOOR_CLOSED_2 = CELL_DOOR | (CLOSED_DOOR << 7) | (DOOR_2 << 4),
+    CELL_DOOR_OPENED_2 = CELL_DOOR | (OPENED_DOOR << 7) | (DOOR_2 << 4),
+    CELL_DOOR_CLOSED_3 = CELL_DOOR | (CLOSED_DOOR << 7) | (DOOR_3 << 4),
+    CELL_DOOR_OPENED_3 = CELL_DOOR | (OPENED_DOOR << 7) | (DOOR_3 << 4),
+    CELL_DOOR_CLOSED_4 = CELL_DOOR | (CLOSED_DOOR << 7) | (DOOR_4 << 4),
+    CELL_DOOR_OPENED_4 = CELL_DOOR | (OPENED_DOOR << 7) | (DOOR_4 << 4),
+    CELL_DOOR_CLOSED_5 = CELL_DOOR | (CLOSED_DOOR << 7) | (DOOR_5 << 4),
+    CELL_DOOR_OPENED_5 = CELL_DOOR | (OPENED_DOOR << 7) | (DOOR_5 << 4),
+    CELL_DOOR_CLOSED_6 = CELL_DOOR | (CLOSED_DOOR << 7) | (DOOR_6 << 4),
+    CELL_DOOR_OPENED_6 = CELL_DOOR | (OPENED_DOOR << 7) | (DOOR_6 << 4),
+    CELL_DOOR_CLOSED_7 = CELL_DOOR | (CLOSED_DOOR << 7) | (DOOR_7 << 4),
+    CELL_DOOR_OPENED_7 = CELL_DOOR | (OPENED_DOOR << 7) | (DOOR_7 << 4),
 };
 
 struct map;
@@ -60,15 +89,22 @@ int map_get_height(struct map* map);
 cell_type_t map_get_cell_type(struct map* map, int x, int y);
 cell_type_t map_get_cell(struct map* map, int x, int y);
 cell_type_t map_get_cell_bonus_type(struct map* map, int x, int y);
+cell_type_t map_get_cell_door_type(struct map* map, int x, int y);
 
 // Set the type of a cell
 void  map_set_cell_type(struct map* map, int x, int y, cell_type_t type);
+
+void map_set_opened_door(struct map* map, int x, int y);
+
+int map_get_door_number(struct map* map, int x, int y);
 
 // Test if (x,y) is within the map
 int map_is_inside(struct map* map, int x, int y);
 
 // Return a default 12x12 static map
 struct map* map_get_default();
+
+struct map* map_get_nb();
 
 // Return the bomb list of the map
 struct list* map_get_bombs(struct map* map);
@@ -88,5 +124,7 @@ void map_case_explosion(struct map* map, int x, int y);
 
 // Display the map on the screen
 void map_display(struct map* map);
+
+struct map* map_load_from_file(char* data);
 
 #endif /* MAP_H_ */

@@ -5,6 +5,9 @@
 #include <sprite.h>
 #include <window.h>
 #include <misc.h>
+#include <level.h>
+#include <game.h>
+#include <map.h>
 #include <constant.h>
 
 struct player {
@@ -15,6 +18,7 @@ struct player {
 	int range;
 	int invincibleTimer;
 	int dead;
+	int key;
 };
 
 struct player* player_init(int bomb_number, int life_number, int range_number) {
@@ -28,6 +32,7 @@ struct player* player_init(int bomb_number, int life_number, int range_number) {
 	player->range = range_number;
 	player->invincibleTimer = 0;
 	player->dead = 0;
+	player->key=0;
 
 	return player;
 }
@@ -77,6 +82,10 @@ void player_set_current_way(struct player* player, enum way way) {
 	player->current_way = way;
 }
 
+int player_get_key(struct player* player){
+	assert(player);
+	return player->key;
+}
 
 int player_get_nb_bomb(struct player* player) {
 	assert(player);
@@ -138,11 +147,12 @@ void player_from_map(struct player* player, struct map* map) {
 	}
 }
 
-static int player_move_aux(struct player* player, struct map* map, int x, int y) {
+static int player_move_aux(struct game* game, struct player* player, struct map* map, int x, int y) {
 
 	if (!map_is_inside(map, x, y))
 		return 0;
 
+	int i=0;
 	switch (map_get_cell_type(map, x, y)) {
 	case CELL_SCENERY:
 		return 0;
@@ -224,6 +234,24 @@ static int player_move_aux(struct player* player, struct map* map, int x, int y)
 		return 0;
 		break;
 
+	case CELL_DOOR:
+		if (map_get_cell_door_type(map, x, y)){
+			i=map_get_door_number(map, x, y);
+			level_set_cur_map(game_get_curr_level(game), i);
+			return 0;
+		}
+		if (player->key == 1){
+			map_set_opened_door(map, x, y);
+			player->key=0;
+		}
+		return 0;
+		break;
+
+	case CELL_KEY:
+		player->key=1;
+		return 1;
+		break;
+
 	default:
 		break;
 	}
@@ -232,35 +260,39 @@ static int player_move_aux(struct player* player, struct map* map, int x, int y)
 	return 1;
 }
 
-int player_move(struct player* player, struct map* map) {
+int player_move(struct game* game) {
+
+	struct player* player = game_get_player(game);
+	struct map* map = level_get_curr_map(game_get_curr_level(game));
+
 	int x = player->x;
 	int y = player->y;
 	int move = 0;
 
 	switch (player->current_way) {
 	case NORTH:
-		if (player_move_aux(player, map, x, y - 1)) {
+		if (player_move_aux(game, player, map, x, y - 1)) {
 			player->y--;
 			move = 1;
 		}
 		break;
 
 	case SOUTH:
-		if (player_move_aux(player, map, x, y + 1)) {
+		if (player_move_aux(game, player, map, x, y + 1)) {
 			player->y++;
 			move = 1;
 		}
 		break;
 
 	case WEST:
-		if (player_move_aux(player, map, x - 1, y)) {
+		if (player_move_aux(game, player, map, x - 1, y)) {
 			player->x--;
 			move = 1;
 		}
 		break;
 
 	case EAST:
-		if (player_move_aux(player, map, x + 1, y)) {
+		if (player_move_aux(game, player, map, x + 1, y)) {
 			player->x++;
 			move = 1;
 		}
@@ -268,7 +300,7 @@ int player_move(struct player* player, struct map* map) {
 	}
 
 	if (move) {
-		if ( map_get_cell_type(map, x, y) != CELL_BOMB )
+		if ( map_get_cell_type(map, x, y) != CELL_BOMB && map_get_cell_type(map, x, y) != CELL_DOOR )
 			map_set_cell_type(map, x, y, CELL_EMPTY);
 		map_set_cell_type(map, player->x, player->y, CELL_PLAYER);
 	}

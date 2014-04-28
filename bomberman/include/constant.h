@@ -6,6 +6,8 @@
 // Size (# of pixels) of a cell of the map
 #define SIZE_BLOC       40
 
+#define MAP_1_2             "data/map_1_2.lvl"
+
 // Size (# of pixels) of banner
 #define LINE_HEIGHT			4
 #define BANNER_HEIGHT		40

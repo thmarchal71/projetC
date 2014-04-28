@@ -16,10 +16,11 @@ struct level* level_get_level(int num) {
 	struct level* level = malloc(sizeof(*level));
 	switch (num) {
 	case 0:
-		level->nb_maps = 1;
+		level->nb_maps = 2;
 		level->cur_map = 0;
 		level->maps = malloc(sizeof(*level->maps));
 		level->maps[0] = map_get_default();
+		level->maps[1] = map_load_from_file(MAP_1_2);
 
 		return level;
 		break;
@@ -29,6 +30,10 @@ struct level* level_get_level(int num) {
 
 struct map* level_get_curr_map(struct level* level) {
 	return level->maps[level->cur_map];
+}
+
+void level_set_cur_map(struct level* level, int i){
+	level->cur_map = i;
 }
 
 struct map* level_get_map(struct level* level, int num) {

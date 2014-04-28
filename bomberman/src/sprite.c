@@ -30,6 +30,9 @@
 #define BANNER_8		"sprite/banner_8.jpg"
 #define BANNER_9		"sprite/banner_9.jpg"
 
+// Sprite of pause
+#define PAUSE		"sprite/pause.png"
+
 // Sprites of Bombs
 #define BOMB_TTL000		"sprite/explosion0.png"
 #define BOMB_TTL00		"sprite/explosion1.png"
@@ -73,6 +76,9 @@ SDL_Surface* banner_bomb;
 SDL_Surface* banner_range;
 SDL_Surface* banner_line;
 
+// pause
+SDL_Surface* pause;
+
 // map
 SDL_Surface* box;
 SDL_Surface* goal;
@@ -96,6 +102,14 @@ SDL_Surface* monster_img[4];
 
 // bomb
 SDL_Surface* bomb_img[11];
+
+void pause_load() {
+	pause = load_image(PAUSE);
+}
+
+void pause_unload() {
+	SDL_FreeSurface(pause);
+}
 
 void banner_load() {
 	// numbers imgs
@@ -215,6 +229,7 @@ void monster_unload() {
 void sprite_load() {
 	map_load();
 	bonus_load();
+	pause_load();
 	banner_load();
 	player_load();
 	monster_load();
@@ -224,6 +239,7 @@ void sprite_load() {
 void sprite_free() {
 	map_unload();
 	bonus_unload();
+	pause_unload();
 	banner_unload();
 	player_unload();
 	monster_unload();
@@ -263,6 +279,11 @@ SDL_Surface* sprite_get_banner_life() {
 SDL_Surface* sprite_get_banner_bomb() {
 	assert(banner_bomb);
 	return banner_bomb;
+}
+
+SDL_Surface* sprite_get_pause() {
+	assert(pause);
+	return pause;
 }
 
 SDL_Surface* sprite_get_banner_line() {

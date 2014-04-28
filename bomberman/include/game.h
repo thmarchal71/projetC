@@ -21,6 +21,8 @@ struct level* game_get_curr_level(struct game* game);
 // Display the game of the screen
 void game_display(struct game* game);
 
+void game_pause_display(struct game* game);
+
 // update
 int game_update(struct game* game);
 

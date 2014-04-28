@@ -2,6 +2,8 @@
 #define PLAYER_H_
 
 #include <map.h>
+#include <game.h>
+#include <level.h>
 #include <constant.h>
 
 struct player;
@@ -12,6 +14,8 @@ void player_free(struct player* player);
 
 int player_get_dead(struct player* player);
 void player_set_dead(struct player* player);
+
+int player_get_key(struct player* player);
 
 // Returns the current position of the player
 int player_get_x(struct player* player);
@@ -44,7 +48,7 @@ void player_dec_range(struct player* player);
 void player_from_map(struct player* player, struct map* map);
 
 // Move the player according to the current direction
-int player_move(struct player* player, struct map* map);
+int player_move(struct game* game);
 
 // Display the player on the screen
 void player_display(struct player* player);

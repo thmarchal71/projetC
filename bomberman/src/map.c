@@ -1,6 +1,7 @@
 #include <SDL/SDL_image.h>
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 
 #include <bomb.h>
@@ -53,7 +54,7 @@ struct map* map_new(int width, int height)
 int map_is_inside(struct map* map, int x, int y)
 {
 	assert(map);
-	if ( 0<=x && x<=11 && 0<=y && y<=11 )
+	if ( 0<=x && x<=(map_get_width(map)-1) && 0<=y && y<=(map_get_height(map)-1) )
 		return 1;
 	return 0;
 }
@@ -97,6 +98,26 @@ enum cell_type map_get_cell_bonus_type(struct map* map, int x, int y)
 	assert(map && map_is_inside(map, x, y));
 	return map->grid[CELL(x,y)] >> 4;
 }
+
+enum cell_type map_get_cell_door_type(struct map* map, int x, int y)
+{
+	assert(map && map_is_inside(map, x, y));
+	return map->grid[CELL(x,y)] >> 7;
+}
+
+void map_set_opened_door(struct map* map, int x, int y)
+{
+	assert(map && map_is_inside(map, x, y));
+	map->grid[CELL(x,y)] = map->grid[CELL(x,y)] | (OPENED_DOOR << 7);
+}
+
+
+int map_get_door_number(struct map* map, int x, int y)
+{
+	assert(map && map_is_inside(map, x, y));
+	return ((map->grid[CELL(x,y)] & 112) >> 4);
+}
+
 
 void map_set_cell_type(struct map* map, int x, int y, enum cell_type type)
 {
@@ -202,6 +223,21 @@ void display_scenery(struct map* map, int x, int  y, char type)
 	}
 }
 
+void display_door(struct map* map, int x, int  y, char type)
+{
+	switch (type >> 7) { // sub-types are encoded with the 4 most significant bits
+	case CLOSED_DOOR:
+		window_display_image(sprite_get_closed_door(), x, y);
+		break;
+
+	default:
+		window_display_image(sprite_get_door(), x, y);
+		break;
+
+
+	}
+}
+
 void map_display(struct map* map)
 {
 	assert(map != NULL);
@@ -225,11 +261,11 @@ void map_display(struct map* map)
 			case CELL_BONUS:
 				display_bonus(map, x, y, type);
 				break;
-//			case CELL_KEY:
-//				window_display_image(sprite_get_key(), x, y);
-//				break;
+			case CELL_KEY:
+				window_display_image(sprite_get_key(), x, y);
+				break;
 			case CELL_DOOR:
-				window_display_image(sprite_get_door(), x, y);
+				display_door(map, x, y, type);
 				break;
 //			case CELL_CLOSED_DOOR:
 //				window_display_image(sprite_get_closed_door(), x, y);
@@ -255,7 +291,7 @@ struct map* map_get_default(void)
 			CELL_BONUS_LIFE, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY , CELL_EMPTY, CELL_EMPTY, CELL_STONE,  CELL_EMPTY, CELL_EMPTY,
 			CELL_EMPTY, CELL_TREE, CELL_CASE, CELL_TREE, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY,  CELL_EMPTY, CELL_STONE,  CELL_EMPTY, CELL_EMPTY,
 			CELL_EMPTY, CELL_TREE, CELL_TREE, CELL_TREE, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY,  CELL_STONE,  CELL_EMPTY, CELL_EMPTY,
-			CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_STONE,  CELL_EMPTY, CELL_EMPTY,
+			CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_KEY, CELL_DOOR_CLOSED_2, CELL_DOOR_OPENED_2, CELL_EMPTY, CELL_EMPTY, CELL_STONE,  CELL_EMPTY, CELL_EMPTY,
 			CELL_CASE, CELL_STONE, CELL_STONE, CELL_STONE, CELL_STONE, CELL_STONE, CELL_STONE, CELL_STONE, CELL_STONE, CELL_STONE,  CELL_CASE_LIFE, CELL_EMPTY,
 			CELL_MONSTER,  CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_MONSTER
 		};
@@ -263,6 +299,54 @@ struct map* map_get_default(void)
 	for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++)
 		map->grid[i] = themap[i];
 
+
+	monster_from_map(map);
+	return map;
+}
+
+struct map* map_get_nb(void)
+{
+	struct map* map = map_new(MAP_WIDTH, MAP_HEIGHT);
+
+	char themap[MAP_WIDTH * MAP_HEIGHT] = {
+			CELL_PLAYER, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY,
+			CELL_STONE, CELL_STONE, CELL_STONE, CELL_EMPTY, CELL_STONE, CELL_EMPTY, CELL_STONE, CELL_STONE, CELL_STONE, CELL_STONE, CELL_EMPTY, CELL_EMPTY,
+			CELL_STONE, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_STONE, CELL_CASE, CELL_STONE, CELL_EMPTY, CELL_EMPTY, CELL_STONE, CELL_EMPTY, CELL_EMPTY,
+			CELL_STONE, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_STONE, CELL_CASE, CELL_STONE, CELL_EMPTY, CELL_EMPTY, CELL_STONE, CELL_EMPTY, CELL_EMPTY,
+			CELL_BONUS_RANGEINC, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_STONE, CELL_CASE, CELL_STONE, CELL_EMPTY, CELL_EMPTY, CELL_STONE, CELL_EMPTY, CELL_EMPTY,
+			CELL_BONUS_RANGEDEC, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_STONE, CELL_STONE, CELL_STONE, CELL_EMPTY, CELL_EMPTY, CELL_STONE, CELL_EMPTY, CELL_EMPTY,
+			CELL_BONUS_LIFE, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY , CELL_EMPTY, CELL_EMPTY, CELL_STONE,  CELL_EMPTY, CELL_EMPTY,
+			CELL_EMPTY, CELL_TREE, CELL_CASE, CELL_TREE, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY,  CELL_EMPTY, CELL_STONE,  CELL_EMPTY, CELL_EMPTY,
+			CELL_EMPTY, CELL_TREE, CELL_TREE, CELL_TREE, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY,  CELL_STONE,  CELL_EMPTY, CELL_EMPTY,
+			CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_KEY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_STONE,  CELL_EMPTY, CELL_EMPTY,
+			CELL_CASE, CELL_STONE, CELL_STONE, CELL_STONE, CELL_STONE, CELL_STONE, CELL_STONE, CELL_STONE, CELL_STONE, CELL_STONE,  CELL_CASE_LIFE, CELL_EMPTY,
+			CELL_MONSTER,  CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_MONSTER
+		};
+
+	for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++)
+		map->grid[i] = themap[i];
+
+
+	monster_from_map(map);
+	return map;
+}
+
+struct map* map_load_from_file(char* data) {
+	int k = 0, width, height;
+	FILE *file = fopen(data, "r");
+
+	fscanf(file, "%d:%d\n", &width, &height);
+
+	struct map* map = map_new(width, height);
+
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			map->grid[k + j] = fgetc(file) - '0';
+		}
+		k += width;
+		fgetc(file);
+	}
+	fclose(file);
 
 	monster_from_map(map);
 	return map;
