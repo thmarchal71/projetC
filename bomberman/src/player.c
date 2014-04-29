@@ -215,9 +215,9 @@ static int player_move_aux(struct game* game, struct player* player, struct map*
 	case CELL_GOAL:
 		if(map_get_goal_type(map, x, y)==0){
 			i=SDL_GetTicks();
-			while(SDL_GetTicks() - i < 3000){
+			while(SDL_GetTicks() - i < 2000){
 			window_display_image(sprite_get_next(),
-					((map_get_width(map) / 2 )-4)* SIZE_BLOC,(( map_get_height(map) / 2) -4)* SIZE_BLOC);
+					((map_get_width(map) / 2 )-4)* SIZE_BLOC,(( map_get_height(map) / 2) -1)* SIZE_BLOC);
 			window_refresh();
 			}
 			game_change_level(game,1);
@@ -227,7 +227,7 @@ static int player_move_aux(struct game* game, struct player* player, struct map*
 			i=SDL_GetTicks();
 			while(SDL_GetTicks() - i < 3000){
 				window_display_image(sprite_get_end(),
-						((map_get_width(map) / 2 )-1)* SIZE_BLOC,(( map_get_height(map) / 2) -1)* SIZE_BLOC);
+						((map_get_width(map) / 2 )-4)* SIZE_BLOC,(( map_get_height(map) / 2) -1)* SIZE_BLOC);
 				window_refresh();
 			}
 			window_free();
