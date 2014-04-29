@@ -23,6 +23,7 @@ void game_display(struct game* game);
 
 void game_pause_display(struct game* game);
 
+void game_change_level(struct game* game, int i);
 
 // update
 int game_update(struct game* game);

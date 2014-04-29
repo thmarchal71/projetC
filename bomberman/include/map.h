@@ -102,6 +102,8 @@ void  map_set_cell_type(struct map* map, int x, int y, cell_type_t type);
 
 void map_set_opened_door(struct map* map, int x, int y);
 
+int map_get_goal_type(struct map* map, int x, int y);
+
 int map_get_door_number(struct map* map, int x, int y);
 
 // Test if (x,y) is within the map

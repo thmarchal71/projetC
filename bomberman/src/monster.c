@@ -114,6 +114,7 @@ static int monster_move_aux(struct monster* monster, struct player* player, stru
 		break;
 
 	case CELL_GOAL:
+		return 0;
 		break;
 
 	case CELL_MONSTER:
@@ -122,6 +123,10 @@ static int monster_move_aux(struct monster* monster, struct player* player, stru
 
 	case CELL_PLAYER:
 		return 1;
+		break;
+
+	case CELL_KEY:
+		return 0;
 		break;
 
 	case CELL_BOMB:

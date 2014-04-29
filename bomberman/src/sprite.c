@@ -13,6 +13,8 @@
 #define MAP_FLAG	"sprite/flag.png"
 #define MAP_PEACH	"sprite/peach.png"
 
+#define MAP_NEXT	"sprite/next_level.png"
+#define MAP_END		"sprite/the_end.png"
 
 // Scenery elements
 #define MAP_STONE		"sprite/stone.png"
@@ -98,6 +100,9 @@ SDL_Surface* nb_dec;
 SDL_Surface* flag;
 SDL_Surface* peach;
 
+SDL_Surface* next;
+SDL_Surface* end;
+
 // player
 SDL_Surface* player_img[4];
 
@@ -164,6 +169,8 @@ void map_load() {
 	nb_dec = load_image(IMG_BONUS_BOMB_NB_DEC);
 	flag = load_image(MAP_FLAG);
 	peach = load_image(MAP_PEACH);
+	next = load_image(MAP_NEXT);
+	end = load_image(MAP_END);
 }
 
 void map_unload() {
@@ -180,6 +187,8 @@ void map_unload() {
 	SDL_FreeSurface(nb_dec);
 	SDL_FreeSurface(flag);
 	SDL_FreeSurface(peach);
+	SDL_FreeSurface(next);
+	SDL_FreeSurface(end);
 }
 
 void player_load() {
@@ -288,6 +297,16 @@ SDL_Surface* sprite_get_banner_bomb() {
 SDL_Surface* sprite_get_pause() {
 	assert(pause);
 	return pause;
+}
+
+SDL_Surface* sprite_get_next() {
+	assert(next);
+	return next;
+}
+
+SDL_Surface* sprite_get_end() {
+	assert(end);
+	return end;
 }
 
 SDL_Surface* sprite_get_flag() {

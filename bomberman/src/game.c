@@ -6,6 +6,7 @@
 #include <monster.h>
 #include <game.h>
 #include <misc.h>
+#include <level.h>
 #include <window.h>
 #include <sprite.h>
 
@@ -37,6 +38,12 @@ void game_free(struct game* game) {
 struct player* game_get_player(struct game* game) {
 	assert(game);
 	return game->player;
+}
+
+void game_change_level(struct game* game, int i){
+	level_free(game->curr_level);
+	game->curr_level = level_get_level(i);
+	player_from_map(game->player, level_get_map(game->curr_level, 0));
 }
 
 struct level* game_get_curr_level(struct game* game) {
@@ -107,8 +114,7 @@ void game_pause_display(struct game* game){
 	timer=SDL_GetTicks();
 	while(pause == 1){
 
-		window_display_image(sprite_get_pause(),
-				((map_get_width(map) / 2 )-1)* SIZE_BLOC,(( map_get_height(map) / 2) -1)* SIZE_BLOC);
+		window_display_image(sprite_get_pause(),((map_get_width(map) / 2 )-1)* SIZE_BLOC,(( map_get_height(map) / 2) -1)* SIZE_BLOC);
 		window_refresh();
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
@@ -142,14 +148,6 @@ short input_keyboard(struct game* game) {
 			switch (event.key.keysym.sym) {
 			case SDLK_ESCAPE:
 				return 1;
-			case SDLK_t:
-				if(player_get_range(player) < 9)
-					player_inc_range(player);
-				break;
-			case SDLK_y:
-				if(player_get_range(player) > 1)
-					player_dec_range(player);
-				break;
 			case SDLK_p:
 				game_pause_display(game);
 				break;
