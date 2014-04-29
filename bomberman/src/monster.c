@@ -133,6 +133,10 @@ static int monster_move_aux(struct monster* monster, struct player* player, stru
 		return 0;
 		break;
 
+	case CELL_DOOR:
+		return 0;
+		break;
+
 	default:
 		break;
 	}

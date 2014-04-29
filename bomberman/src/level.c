@@ -26,10 +26,11 @@ struct level* level_get_level(int num) {
 		return level;
 		break;
 	case 1:
-		level->nb_maps = 1;
+		level->nb_maps = 2;
 		level->cur_map = 0;
 		level->maps = malloc(sizeof(*level->maps));
 		level->maps[0] = map_load_from_file(MAP_2_1);
+		level->maps[1] = map_load_from_file(MAP_2_2);
 
 		return level;
 		break;

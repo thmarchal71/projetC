@@ -10,6 +10,7 @@
 #define MAP_1_2             "data/map_1_2.lvl"
 #define MAP_1_3             "data/map_1_3.lvl"
 #define MAP_2_1             "data/map_2_1.lvl"
+#define MAP_2_2             "data/map_2_2.lvl"
 
 
 // Size (# of pixels) of banner
