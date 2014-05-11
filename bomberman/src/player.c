@@ -260,7 +260,9 @@ static int player_move_aux(struct game* game, struct player* player, struct map*
 	case CELL_DOOR:
 		if (map_get_cell_door_type(map, x, y)){
 			i=map_get_door_number(map, x, y);
+			map_set_cell_type(map, player->x, player->y, 0);
 			level_set_cur_map(game_get_curr_level(game), i);
+			map_set_cell_type(level_get_curr_map(game_get_curr_level(game)), player->x, player->y, CELL_PLAYER);
 			return 0;
 		}
 		if (player->key == 1){

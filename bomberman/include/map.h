@@ -97,6 +97,8 @@ cell_type_t map_get_cell(struct map* map, int x, int y);
 cell_type_t map_get_cell_bonus_type(struct map* map, int x, int y);
 cell_type_t map_get_cell_door_type(struct map* map, int x, int y);
 
+unsigned char map_get_true_cell(struct map* map, int x, int y);
+
 // Set the type of a cell
 void  map_set_cell_type(struct map* map, int x, int y, cell_type_t type);
 

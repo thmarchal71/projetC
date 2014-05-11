@@ -25,4 +25,8 @@ void  level_display(struct level* level);
 // free level struct
 void   level_free(struct level* level);
 
+int level_get_map_nb(struct level* level);
+
+int level_get_lvl_nb(struct level* level);
+
 #endif /* LEVEL_H_ */
