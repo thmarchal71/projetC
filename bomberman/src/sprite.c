@@ -23,7 +23,7 @@
 // Sprites of Banner
 #define BANNER_LINE		"sprite/banner_line.png"
 #define BANNER_LIFE		"sprite/banner_life.png"
-#define BANNER_BOMB		"sprite/bomb3.png"
+#define BANNER_BOMB		"sprite/banner_bomb.png"
 #define BANNER_RANGE	"sprite/banner_range.png"
 #define BANNER_0		"sprite/banner_0.jpg"
 #define BANNER_1		"sprite/banner_1.jpg"
