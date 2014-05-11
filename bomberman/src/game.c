@@ -95,6 +95,7 @@ void game_display(struct game* game) {
 
 	window_clear();
 
+	window_display_image(sprite_get_ground(),0,0);
 	game_banner_display(game);
 	level_display(game_get_curr_level(game));
 	player_display(game->player);

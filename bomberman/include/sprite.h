@@ -26,6 +26,7 @@ SDL_Surface* sprite_get_flag();
 SDL_Surface* sprite_get_peach();
 SDL_Surface* sprite_get_next();
 SDL_Surface* sprite_get_end();
+SDL_Surface* sprite_get_ground();
 
 
 SDL_Surface* sprite_get_number(short number);
@@ -34,5 +35,6 @@ SDL_Surface* sprite_get_banner_bomb();
 SDL_Surface* sprite_get_banner_line();
 SDL_Surface* sprite_get_banner_range();
 SDL_Surface* sprite_get_pause();
+SDL_Surface* sprite_get_menu(int n);
 
 #endif /* SPRITE_H_ */

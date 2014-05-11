@@ -3,6 +3,7 @@
 #include <constant.h>
 #include <game.h>
 #include <window.h>
+#include <menu.h>
 
 int main(int argc, char *argv[]) {
 	struct game* game = game_new();
@@ -18,7 +19,7 @@ int main(int argc, char *argv[]) {
 
 	// game loop
 	// fixed time rate implementation
-	int done = 0;
+	int done = menu_display(game);
 	while (!done) {
 		timer = SDL_GetTicks();
 

@@ -36,8 +36,14 @@
 #define BANNER_8		"sprite/banner_8.jpg"
 #define BANNER_9		"sprite/banner_9.jpg"
 
+#define GROUND	"sprite/ground.png"
+
 // Sprite of pause
 #define PAUSE		"sprite/pause.png"
+
+// Sprites of Menu
+#define MENU_UP		"sprite/menu1.jpg"
+#define MENU_DOWN	"sprite/menu2.jpg"
 
 // Sprites of Bombs
 #define BOMB_TTL000		"sprite/explosion0.png"
@@ -85,6 +91,10 @@ SDL_Surface* banner_line;
 // pause
 SDL_Surface* pause;
 
+//menu
+SDL_Surface* menu_up;
+SDL_Surface* menu_down;
+
 // map
 SDL_Surface* box;
 SDL_Surface* goal;
@@ -99,6 +109,7 @@ SDL_Surface* nb_inc;
 SDL_Surface* nb_dec;
 SDL_Surface* flag;
 SDL_Surface* peach;
+SDL_Surface* ground;
 
 SDL_Surface* next;
 SDL_Surface* end;
@@ -120,6 +131,16 @@ void pause_load() {
 
 void pause_unload() {
 	SDL_FreeSurface(pause);
+}
+
+void menu_load(){
+	menu_up = load_image(MENU_UP);
+	menu_down = load_image(MENU_DOWN);
+}
+
+void menu_unload(){
+	SDL_FreeSurface(menu_up);
+	SDL_FreeSurface(menu_down);
 }
 
 void banner_load() {
@@ -171,6 +192,7 @@ void map_load() {
 	peach = load_image(MAP_PEACH);
 	next = load_image(MAP_NEXT);
 	end = load_image(MAP_END);
+	ground = load_image(GROUND);
 }
 
 void map_unload() {
@@ -189,6 +211,7 @@ void map_unload() {
 	SDL_FreeSurface(peach);
 	SDL_FreeSurface(next);
 	SDL_FreeSurface(end);
+	SDL_FreeSurface(ground);
 }
 
 void player_load() {
@@ -244,6 +267,7 @@ void monster_unload() {
 void sprite_load() {
 	map_load();
 	pause_load();
+	menu_load();
 	banner_load();
 	player_load();
 	monster_load();
@@ -253,6 +277,7 @@ void sprite_load() {
 void sprite_free() {
 	map_unload();
 	pause_unload();
+	menu_unload();
 	banner_unload();
 	player_unload();
 	monster_unload();
@@ -299,6 +324,14 @@ SDL_Surface* sprite_get_pause() {
 	return pause;
 }
 
+SDL_Surface* sprite_get_menu(int n) {
+	assert(menu_up && menu_down);
+	if( n == 0 )
+		return menu_up;
+	else
+		return menu_down;
+}
+
 SDL_Surface* sprite_get_next() {
 	assert(next);
 	return next;
@@ -307,6 +340,11 @@ SDL_Surface* sprite_get_next() {
 SDL_Surface* sprite_get_end() {
 	assert(end);
 	return end;
+}
+
+SDL_Surface* sprite_get_ground(){
+	assert(ground);
+	return ground;
 }
 
 SDL_Surface* sprite_get_flag() {
