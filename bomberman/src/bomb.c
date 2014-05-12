@@ -171,6 +171,14 @@ void bomb_flame_display(struct map* map, struct player* player,struct bomb* bomb
 				i = bomb->range +1;
 				break;
 
+			case CELL_DOOR:
+				i = bomb->range +1;
+				break;
+
+			case CELL_KEY:
+				i = bomb->range +1;
+				break;
+
 			case CELL_MONSTER:
 				window_display_image(sprite_get_bomb(bomb_get_current_state(bomb)), (bomb_get_x(bomb)+i) * SIZE_BLOC, bomb_get_y(bomb) * SIZE_BLOC);
 				i = bomb->range +1;
@@ -213,6 +221,14 @@ void bomb_flame_display(struct map* map, struct player* player,struct bomb* bomb
 				break;
 
 			case CELL_GOAL:
+				i = bomb->range +1;
+				break;
+
+			case CELL_DOOR:
+				i = bomb->range +1;
+				break;
+
+			case CELL_KEY:
 				i = bomb->range +1;
 				break;
 
@@ -261,6 +277,14 @@ void bomb_flame_display(struct map* map, struct player* player,struct bomb* bomb
 				i = bomb->range +1;
 				break;
 
+			case CELL_DOOR:
+				i = bomb->range +1;
+				break;
+
+			case CELL_KEY:
+				i = bomb->range +1;
+				break;
+
 			case CELL_MONSTER:
 				window_display_image(sprite_get_bomb(bomb_get_current_state(bomb)), bomb_get_x(bomb) * SIZE_BLOC, (bomb_get_y(bomb)+i) * SIZE_BLOC);
 				i = bomb->range +1;
@@ -303,6 +327,14 @@ void bomb_flame_display(struct map* map, struct player* player,struct bomb* bomb
 				break;
 
 			case CELL_GOAL:
+				i = bomb->range +1;
+				break;
+
+			case CELL_DOOR:
+				i = bomb->range +1;
+				break;
+
+			case CELL_KEY:
 				i = bomb->range +1;
 				break;
 
@@ -371,6 +403,14 @@ void bomb_destruct(struct map* map, struct player* player,struct bomb* bomb){
 				i = bomb->range +1;
 				break;
 
+			case CELL_DOOR:
+				i = bomb->range +1;
+				break;
+
+			case CELL_KEY:
+				i = bomb->range +1;
+				break;
+
 			case CELL_MONSTER:
 				monster=monster_find(map, bomb->x +i, bomb->y);
 				monster_set_dead(monster);
@@ -425,6 +465,14 @@ void bomb_destruct(struct map* map, struct player* player,struct bomb* bomb){
 				i = bomb->range +1;
 				break;
 
+			case CELL_DOOR:
+				i = bomb->range +1;
+				break;
+
+			case CELL_KEY:
+				i = bomb->range +1;
+				break;
+
 			case CELL_MONSTER:
 				monster=monster_find(map, bomb->x -i, bomb->y);
 				monster_set_dead(monster);
@@ -472,6 +520,14 @@ void bomb_destruct(struct map* map, struct player* player,struct bomb* bomb){
 
 			case CELL_BONUS:
 				map_set_cell_type(map, bomb->x, bomb->y +i, CELL_EMPTY);
+				i = bomb->range +1;
+				break;
+
+			case CELL_DOOR:
+				i = bomb->range +1;
+				break;
+
+			case CELL_KEY:
 				i = bomb->range +1;
 				break;
 
@@ -526,6 +582,14 @@ void bomb_destruct(struct map* map, struct player* player,struct bomb* bomb){
 
 			case CELL_BONUS:
 				map_set_cell_type(map, bomb->x, bomb->y -i, CELL_EMPTY);
+				i = bomb->range +1;
+				break;
+
+			case CELL_DOOR:
+				i = bomb->range +1;
+				break;
+
+			case CELL_KEY:
 				i = bomb->range +1;
 				break;
 

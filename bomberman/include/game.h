@@ -13,6 +13,9 @@ struct game* game_new();
 // Free a game
 void game_free(struct game* game);
 
+int game_get_win(struct game* game);
+void game_set_win(struct game* game);
+
 // Return the player of the current game
 struct player* game_get_player(struct game* game);
 

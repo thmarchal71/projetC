@@ -230,9 +230,7 @@ static int player_move_aux(struct game* game, struct player* player, struct map*
 						((map_get_width(map) / 2 )-4)* SIZE_BLOC,(( map_get_height(map) / 2) -1)* SIZE_BLOC);
 				window_refresh();
 			}
-			window_free();
-			game_free(game);
-			SDL_Quit();
+			game_set_win(game);
 
 			return EXIT_SUCCESS;
 		}

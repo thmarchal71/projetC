@@ -32,6 +32,9 @@ int menu_display(struct game* game){
 				case SDLK_RETURN:
 					i=1;
 					break;
+				case SDLK_KP_ENTER:
+					i=1;
+					break;
 				default :
 					break;
 				}

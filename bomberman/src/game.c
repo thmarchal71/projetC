@@ -14,6 +14,7 @@
 struct game {
 	struct level* curr_level; // current level
 	struct player* player;
+	int win;
 
 };
 
@@ -26,6 +27,8 @@ struct game* game_new(void) {
 	game->player = player_init(1,2,1);
 	player_from_map(game->player, level_get_map(game->curr_level, 0)); // get x,y of the player on the first map
 
+	game->win=0;
+
 	return game;
 }
 
@@ -34,6 +37,15 @@ void game_free(struct game* game) {
 
 	player_free(game->player);
 	level_free(game->curr_level);
+}
+
+int game_get_win(struct game* game) {
+	assert(game);
+	return game->win;
+}
+
+void game_set_win(struct game* game) {
+	game->win=1;
 }
 
 struct player* game_get_player(struct game* game) {
