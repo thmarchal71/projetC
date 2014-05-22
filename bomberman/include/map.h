@@ -135,6 +135,8 @@ void map_case_explosion(struct map* map, int x, int y);
 // Display the map on the screen
 void map_display(struct map* map);
 
+void map_free_monster(struct map* map);
+
 struct map* map_load_from_file(char* data);
 
 #endif /* MAP_H_ */

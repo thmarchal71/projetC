@@ -373,7 +373,8 @@ void bomb_destruct(struct map* map, struct player* player,struct bomb* bomb){
 			}
 		}
 	}		// Kill the player if he is touched by an explosion
-	if (map_get_cell_type(map, bomb->x , bomb->y)== CELL_MONSTER){
+//	if (map_get_cell_type(map, bomb->x , bomb->y)== CELL_MONSTER){
+	if ( monster_find(map, bomb->x, bomb->y) != NULL ){
 		monster=monster_find(map, bomb->x, bomb->y);
 		monster_set_dead(monster);
 	}
@@ -598,7 +599,7 @@ void bomb_destruct(struct map* map, struct player* player,struct bomb* bomb){
 				break;
 
 			case CELL_MONSTER:
-				monster=monster_find(map, bomb->x , bomb->y +i);
+				monster=monster_find(map, bomb->x , bomb->y -i);
 				monster_set_dead(monster);
 				i = bomb->range +1;
 				break;

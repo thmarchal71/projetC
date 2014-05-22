@@ -16,6 +16,7 @@ int player_get_dead(struct player* player);
 void player_set_dead(struct player* player);
 
 int player_get_key(struct player* player);
+void player_set_key(struct player* player,int k);
 
 // Returns the current position of the player
 int player_get_x(struct player* player);
@@ -33,16 +34,19 @@ void player_set_current_way(struct player* player, way_t way);
 int player_get_nb_bomb(struct player* player);
 void player_inc_nb_bomb(struct player* player);
 void player_dec_nb_bomb(struct player* player);
+void player_set_nb_bomb(struct player* player,int b);
 
 // Set, Increase, Decrease the number of life that player has
 int player_get_nb_life(struct player* player);
 void player_inc_nb_life(struct player* player);
 void player_dec_nb_life(struct player* player);
+void player_set_nb_life(struct player* player, int l);
 
 // Set, Increase, Decrease the range that player has
 int player_get_range(struct player* player);
 void player_inc_range(struct player* player);
 void player_dec_range(struct player* player);
+void player_set_range(struct player* player, int r);
 
 // Load the player position from the map
 void player_from_map(struct player* player, struct map* map);

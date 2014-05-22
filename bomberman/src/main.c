@@ -2,6 +2,7 @@
 
 #include <constant.h>
 #include <game.h>
+#include <player.h>
 #include <window.h>
 #include <menu.h>
 

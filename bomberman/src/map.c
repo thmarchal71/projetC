@@ -69,6 +69,10 @@ void map_free(struct map* map)
 	free(map);
 }
 
+void map_free_monster(struct map* map){
+	map->monster_list = list_delete(map->monster_list);
+}
+
 int map_get_width(struct map* map)
 {
 	assert(map != NULL);

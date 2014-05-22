@@ -87,6 +87,22 @@ int player_get_key(struct player* player){
 	return player->key;
 }
 
+void player_set_key(struct player* player,int k){
+	player->key=k;
+}
+
+void player_set_nb_bomb(struct player* player,int b){
+	player->nb_bomb=b;
+}
+
+void player_set_nb_life(struct player* player, int l){
+	player->nb_life=l;
+}
+
+void player_set_range(struct player* player, int r){
+	player->range=r;
+}
+
 int player_get_nb_bomb(struct player* player) {
 	assert(player);
 	return player->nb_bomb;

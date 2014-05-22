@@ -59,6 +59,13 @@ void game_change_level(struct game* game, int i){
 	player_from_map(game->player, level_get_map(game->curr_level, 0));
 }
 
+void game_load_level(struct game* game, int lvl_nb, int map_nb){
+	level_free(game->curr_level);
+	game->curr_level = level_get_level(lvl_nb);
+	level_set_cur_map(game_get_curr_level(game), map_nb);
+	player_from_map(game->player, level_get_map(game->curr_level, map_nb));
+}
+
 struct level* game_get_curr_level(struct game* game) {
 	return game->curr_level;
 }

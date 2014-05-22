@@ -1,7 +1,6 @@
 #ifndef GAME_H_
 #define GAME_H_
 
-#include <player.h>
 #include <level.h>
 #include <map.h>
 
@@ -28,6 +27,8 @@ void game_display(struct game* game);
 void game_pause_display(struct game* game);
 
 void game_change_level(struct game* game, int i);
+
+void game_load_level(struct game* game, int lvl_nb, int map_nb);
 
 // update
 int game_update(struct game* game);
