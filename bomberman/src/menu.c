@@ -153,6 +153,23 @@ int menu_display(struct game* game){
 		window_refresh();
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
+			case SDL_MOUSEMOTION:
+				if(event.motion.x>107 && event.motion.x<392 && event.motion.y>62 && event.motion.y<100)
+					opt=0;
+				if(event.motion.x>104 && event.motion.x<315 && event.motion.y>132 && event.motion.y<161)
+					opt=1;
+				break;
+			case SDL_MOUSEBUTTONDOWN:
+				if(event.button.x>107 && event.button.x<392 && event.button.y>62 && event.button.y<100 && event.button.button==1){
+					opt=0;
+					i=1;
+				}
+				if(event.button.x>104 && event.button.x<315 && event.button.y>132 && event.button.y<161 && event.button.button==1){
+					opt=1;
+					i=1;
+				}
+				break;
+				break;
 			case SDL_QUIT:
 				return 1;
 			case SDL_KEYDOWN:

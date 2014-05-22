@@ -139,8 +139,19 @@ void game_pause_display(struct game* game){
 		window_refresh();
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
+			case SDL_QUIT: // keyboard : esc
+				game->win=1;
+				pause=0;
+				break;
 			case SDL_KEYDOWN:
 				switch (event.key.keysym.sym) {
+				case SDLK_ESCAPE:
+					game->win=1;
+					pause=0;
+					break;
+				case SDLK_s:
+					game_save(game);
+					break;
 				case SDLK_p:
 					pause=0;
 					break;
