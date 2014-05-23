@@ -1,0 +1,18 @@
+-- Instructions --
+
+Menu :
+	Haut, Bas ou déplacer la souris pour naviguer
+	Entrée ou clique gauche pour sélectionner
+	Esc pour quitter
+	
+En jeu :
+	Haut, Bas, Gauche, Droite pour bouger
+	Espace pour poser une bombe
+	s pour sauvegarder
+	p pour mettre le jeu en pause
+	Esc pour quitter
+	
+En pause :
+	s pour sauvegarder
+	p pour reprendre le jeu
+	Esc pour quitter
