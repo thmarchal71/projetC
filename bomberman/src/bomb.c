@@ -1,4 +1,5 @@
 #include <SDL/SDL_image.h>
+#include <SDL/SDL_mixer.h>
 #include <assert.h>
 
 #include <map.h>
@@ -81,7 +82,7 @@ void bomb_install(struct player* player, struct map* map) {
 	map_set_cell_type(map, bomb_get_x(bomb), bomb_get_y(bomb), CELL_BOMB);	// Set the CELL to display the bomb
 }
 
-void bomb_display(struct map* map, struct player* player) {
+void bomb_display(struct map* map, struct player* player,Mix_Chunk *explosion) {
 	if(map_get_bombs(map) != NULL){
 		struct list* bomb_list = map_get_bombs(map);
 		struct bomb* bomb = NULL;
@@ -129,6 +130,7 @@ void bomb_display(struct map* map, struct player* player) {
 				bomb_set_current_state(bomb, STATE10);
 				bomb_flame_display(map,player,bomb);
 			} else {
+				Mix_PlayChannel(-1,explosion, 0);
 				map_set_cell_type(map, bomb_get_x(bomb), bomb_get_y(bomb), CELL_EMPTY);							// Reset the CELL
 				bomb_destruct(map, player, bomb);																// Destruction of the elements
 				map_set_bombs(map, list_find_delete(map_get_bombs(map),bomb_get_x(bomb), bomb_get_y(bomb)));	// Erase the bomb of the list

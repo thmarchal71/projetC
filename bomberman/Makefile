@@ -4,7 +4,7 @@ SDLCFLAGS = `bash sdl-config  --cflags`
 SDLLDFLAGS = `bash sdl-config --libs` 
 
 CFLAGS = -Wall -O0 -g -std=c99 -Iinclude/ $(SDLCFLAGS)
-LDFLAGS = $(SDLLDFLAGS) -lSDL_image
+LDFLAGS = $(SDLLDFLAGS) -lSDL_image -lSDL_mixer
 
 BINDIR = bin
 BIN = bomberman

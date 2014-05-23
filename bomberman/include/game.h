@@ -3,6 +3,7 @@
 
 #include <level.h>
 #include <map.h>
+#include <SDL/SDL_mixer.h>
 
 struct game;
 
@@ -22,7 +23,7 @@ struct player* game_get_player(struct game* game);
 struct level* game_get_curr_level(struct game* game);
 
 // Display the game of the screen
-void game_display(struct game* game);
+void game_display(struct game* game,Mix_Chunk *explosion);
 
 void game_pause_display(struct game* game);
 

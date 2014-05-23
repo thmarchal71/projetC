@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <time.h>
+#include <SDL/SDL_mixer.h>
 
 #include <list.h>
 #include <bomb.h>
@@ -109,7 +110,7 @@ void game_banner_display(struct game* game) {
 
 }
 
-void game_display(struct game* game) {
+void game_display(struct game* game,Mix_Chunk *explosion) {
 	assert(game);
 
 	window_clear();
@@ -118,7 +119,7 @@ void game_display(struct game* game) {
 	game_banner_display(game);
 	level_display(game_get_curr_level(game));
 	player_display(game->player);
-	bomb_display(level_get_curr_map(game_get_curr_level(game)),game->player);
+	bomb_display(level_get_curr_map(game_get_curr_level(game)),game->player,explosion);
 	monster_display(level_get_curr_map(game_get_curr_level(game)),game->player);
 
 	window_refresh();
@@ -153,6 +154,8 @@ void game_pause_display(struct game* game){
 					game_save(game);
 					break;
 				case SDLK_p:
+					Mix_Resume(-1);
+					Mix_ResumeMusic();
 					pause=0;
 					break;
 				default :
@@ -181,6 +184,8 @@ short input_keyboard(struct game* game) {
 			case SDLK_ESCAPE:
 				return 1;
 			case SDLK_p:
+				Mix_Pause(-1);
+				Mix_PauseMusic();
 				game_pause_display(game);
 				break;
 			case SDLK_r:

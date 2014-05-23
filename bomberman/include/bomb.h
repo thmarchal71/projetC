@@ -4,6 +4,7 @@
 #include <player.h>
 #include <map.h>
 #include <constant.h>
+#include <SDL/SDL_mixer.h>
 
 struct bomb;
 
@@ -27,7 +28,7 @@ struct bomb* bomb_init(struct player* player);
 void bomb_install(struct player* player, struct map* map);
 
 // Display a bomb animation, include the animation of flames and the destruction of the elements
-void bomb_display(struct map* map, struct player* player);
+void bomb_display(struct map* map, struct player* player,Mix_Chunk *explosion);
 
 // Display the flames of the explosion
 void bomb_flame_display(struct map* map, struct player* player,struct bomb* bomb);

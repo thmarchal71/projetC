@@ -1,4 +1,5 @@
 #include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
 
 #include <constant.h>
 #include <game.h>
@@ -18,6 +19,18 @@ int main(int argc, char *argv[]) {
 	int ideal_speed = 1000 / DEFAULT_GAME_FPS;
 	int timer, execution_speed;
 
+	if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1)
+		printf("%s", Mix_GetError());
+
+	Mix_AllocateChannels(32);
+	Mix_VolumeMusic(MIX_MAX_VOLUME);
+	Mix_Music *musique;
+	musique = Mix_LoadMUS("music/MarioTheme.mp3");
+	Mix_PlayMusic(musique, -1);
+
+	Mix_Chunk *explosion;
+	explosion = Mix_LoadWAV("music/bomb.wav");
+	Mix_VolumeChunk(explosion, MIX_MAX_VOLUME);
 	// game loop
 	// fixed time rate implementation
 	int done = menu_display(game);
@@ -25,15 +38,16 @@ int main(int argc, char *argv[]) {
 		timer = SDL_GetTicks();
 
 		done = game_update(game);
-		game_display(game);
+		game_display(game,explosion);
 
 		if ( player_get_dead(game_get_player(game))) {		// Reset the game if the player is dead
 			game_free(game);
 			game=game_new();
 		}
 
-		if(game_get_win(game) == 1)
+		if(game_get_win(game) == 1){
 			done=1;
+		}
 
 		execution_speed = SDL_GetTicks() - timer;
 		if (execution_speed < ideal_speed)
@@ -42,6 +56,9 @@ int main(int argc, char *argv[]) {
 	}
 	window_free();
 	game_free(game);
+	Mix_FreeChunk(explosion);
+	Mix_FreeMusic(musique);
+	Mix_CloseAudio();
 	SDL_Quit();
 
 	return EXIT_SUCCESS;
