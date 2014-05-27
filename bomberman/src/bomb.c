@@ -129,8 +129,13 @@ void bomb_display(struct map* map, struct player* player,Mix_Chunk *explosion) {
 			} else if ( SDL_GetTicks() - bomb_get_timer(bomb) < 1700 ) {
 				bomb_set_current_state(bomb, STATE10);
 				bomb_flame_display(map,player,bomb);
-			} else {
+			} else if ( SDL_GetTicks() - bomb_get_timer(bomb) < 2000 ){
 				Mix_PlayChannel(-1,explosion, 0);
+				map_set_cell_type(map, bomb_get_x(bomb), bomb_get_y(bomb), CELL_EMPTY);							// Reset the CELL
+				bomb_destruct(map, player, bomb);																// Destruction of the elements
+				map_set_bombs(map, list_find_delete(map_get_bombs(map),bomb_get_x(bomb), bomb_get_y(bomb)));	// Erase the bomb of the list
+				bomb_list = map_get_bombs(map);
+			} else {
 				map_set_cell_type(map, bomb_get_x(bomb), bomb_get_y(bomb), CELL_EMPTY);							// Reset the CELL
 				bomb_destruct(map, player, bomb);																// Destruction of the elements
 				map_set_bombs(map, list_find_delete(map_get_bombs(map),bomb_get_x(bomb), bomb_get_y(bomb)));	// Erase the bomb of the list
