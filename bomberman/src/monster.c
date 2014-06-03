@@ -150,7 +150,7 @@ void monster_move(struct monster* monster, struct player* player, struct map* ma
 	int y = monster->y;
 	int move = 0;
 
-	int proba = rand() % 4;
+	int proba = rand() % 4; // Random movement
 	switch (proba) {
 	case 0:
 		monster->current_way = NORTH;

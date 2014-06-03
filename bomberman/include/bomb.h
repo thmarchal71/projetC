@@ -12,8 +12,10 @@ struct bomb;
 int bomb_get_x(struct bomb* bomb);
 int bomb_get_y(struct bomb* bomb);
 int bomb_get_timer(struct bomb* bomb);
-void bomb_set_timer(struct bomb* bomb, float time);
 enum state bomb_get_current_state(struct bomb* bomb);
+
+// Set the timer of a bomb
+void bomb_set_timer(struct bomb* bomb, float time);
 
 // Set the state of a bomb
 void bomb_set_current_state(struct bomb* bomb, enum state state);
@@ -34,8 +36,9 @@ void bomb_display(struct map* map, struct player* player,Mix_Chunk *explosion);
 void bomb_flame_display(struct map* map, struct player* player,struct bomb* bomb);
 
 // Destroy the elements during the explosion
-void bomb_destruct(struct map* map, struct player* player,struct bomb* bomb);
+void bomb_destruct(struct map* map, struct player* player,struct bomb* bomb, int opt);
 
+// Delay the timer of all the bomb on the map, useful in case of pause
 void bomb_delay_timer(struct map* map, struct player* player, int delay);
 
 #endif /* BOMB_H_ */

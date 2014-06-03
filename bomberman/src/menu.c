@@ -48,7 +48,6 @@ void menu_load_game(struct game* game){
 		fclose(file);
 
 		map_free_monster(level_get_map(game_get_curr_level(game), 0));
-	//	map_get_monsters(level_get_map(game_get_curr_level(game), 0))=list_delete(map_get_monsters(level_get_map(game_get_curr_level(game), 0)));
 		monster_from_map(level_get_map(game_get_curr_level(game), 0));
 
 		file = fopen("save/s_map_1_2.lvl", "r");
@@ -70,7 +69,6 @@ void menu_load_game(struct game* game){
 		fclose(file);
 
 		map_free_monster(level_get_map(game_get_curr_level(game), 1));
-//		map_get_monsters(level_get_map(game_get_curr_level(game), 1))=list_delete(map_get_monsters(level_get_map(game_get_curr_level(game), 1)));
 		monster_from_map(level_get_map(game_get_curr_level(game), 1));
 
 		file = fopen("save/s_map_1_3.lvl", "r");
@@ -92,7 +90,6 @@ void menu_load_game(struct game* game){
 		fclose(file);
 
 		map_free_monster(level_get_map(game_get_curr_level(game), 2));
-	//	map_get_monsters(level_get_map(game_get_curr_level(game), 2))=list_delete(map_get_monsters(level_get_map(game_get_curr_level(game), 2)));
 		monster_from_map(level_get_map(game_get_curr_level(game), 2));
 	}
 	if ( lvl_nb==1 ){
@@ -115,7 +112,6 @@ void menu_load_game(struct game* game){
 		fclose(file);
 
 		map_free_monster(level_get_map(game_get_curr_level(game), 0));
-//		map_get_monsters(level_get_map(game_get_curr_level(game), 0))=list_delete(map_get_monsters(level_get_map(game_get_curr_level(game), 0)));
 		monster_from_map(level_get_map(game_get_curr_level(game), 0));
 
 		file = fopen("save/s_map_2_2.lvl", "r");
@@ -137,7 +133,6 @@ void menu_load_game(struct game* game){
 		fclose(file);
 
 		map_free_monster(level_get_map(game_get_curr_level(game), 1));
-//		map_get_monsters(level_get_map(game_get_curr_level(game), 1))=list_delete(map_get_monsters(level_get_map(game_get_curr_level(game), 1)));
 		monster_from_map(level_get_map(game_get_curr_level(game), 1));
 		}
 	player_from_map(game_get_player(game), level_get_map(game_get_curr_level(game), map_nb));
@@ -153,13 +148,13 @@ int menu_display(struct game* game){
 		window_refresh();
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
-			case SDL_MOUSEMOTION:
+			case SDL_MOUSEMOTION:	// Mouse position
 				if(event.motion.x>107 && event.motion.x<392 && event.motion.y>62 && event.motion.y<100)
 					opt=0;
 				if(event.motion.x>104 && event.motion.x<315 && event.motion.y>132 && event.motion.y<161)
 					opt=1;
 				break;
-			case SDL_MOUSEBUTTONDOWN:
+			case SDL_MOUSEBUTTONDOWN: // Mouse click
 				if(event.button.x>107 && event.button.x<392 && event.button.y>62 && event.button.y<100 && event.button.button==1){
 					opt=0;
 					i=1;
@@ -182,10 +177,10 @@ int menu_display(struct game* game){
 				case SDLK_DOWN:
 					opt=1;
 					break;
-				case SDLK_RETURN:
+				case SDLK_RETURN: // Enter in normal keyboard
 					i=1;
 					break;
-				case SDLK_KP_ENTER:
+				case SDLK_KP_ENTER: // Enter in pad keyboard
 					i=1;
 					break;
 				default :

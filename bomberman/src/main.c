@@ -8,7 +8,7 @@
 #include <menu.h>
 
 int main(int argc, char *argv[]) {
-	struct game* game = game_new();
+	struct game* game = game_new(); // Create new game
 
 	window_create(SIZE_BLOC * MAP_WIDTH,
 			SIZE_BLOC * MAP_HEIGHT + BANNER_HEIGHT + LINE_HEIGHT);
@@ -19,21 +19,21 @@ int main(int argc, char *argv[]) {
 	int ideal_speed = 1000 / DEFAULT_GAME_FPS;
 	int timer, execution_speed;
 
-	if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1)
+	if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1) // Open music player
 		printf("%s", Mix_GetError());
 
-	Mix_AllocateChannels(32);
-	Mix_VolumeMusic(MIX_MAX_VOLUME);
+	Mix_AllocateChannels(32); // Number of channels
+	Mix_VolumeMusic(MIX_MAX_VOLUME); // Volume of the music
 	Mix_Music *musique;
-	musique = Mix_LoadMUS("music/MarioTheme.mp3");
-	Mix_PlayMusic(musique, -1);
+	musique = Mix_LoadMUS("music/MarioTheme.mp3"); // Load music
+	Mix_PlayMusic(musique, -1); // Play music with repeat option
 
 	Mix_Chunk *explosion;
-	explosion = Mix_LoadWAV("music/bomb.wav");
+	explosion = Mix_LoadWAV("music/bomb.wav"); // Load sound
 	Mix_VolumeChunk(explosion, MIX_MAX_VOLUME);
 	// game loop
 	// fixed time rate implementation
-	int done = menu_display(game);
+	int done = menu_display(game); // Return 1 if you want to exit during menu
 	while (!done) {
 		timer = SDL_GetTicks();
 

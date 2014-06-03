@@ -154,9 +154,9 @@ void game_pause_display(struct game* game){
 					game_save(game);
 					break;
 				case SDLK_p:
-					Mix_Resume(-1);
-					Mix_ResumeMusic();
-					pause=0;
+					Mix_Resume(-1); // Resume sound
+					Mix_ResumeMusic(); // Resume music
+					pause=0; // Exit the loop
 					break;
 				default :
 					break;
@@ -166,7 +166,7 @@ void game_pause_display(struct game* game){
 		}
 	}
 	delay=SDL_GetTicks()-timer;
-	bomb_delay_timer(map,player, delay);
+	bomb_delay_timer(map,player, delay); // Delay the timer with the time of the pause
 	monster_delay_timer(map,player);
 }
 
@@ -184,15 +184,15 @@ short input_keyboard(struct game* game) {
 			case SDLK_ESCAPE:
 				return 1;
 			case SDLK_p:
-				Mix_Pause(-1);
-				Mix_PauseMusic();
+				Mix_Pause(-1); // Pause sound
+				Mix_PauseMusic(); // Pause music
 				game_pause_display(game);
 				break;
 			case SDLK_r:
-				player_set_dead(player);
+				player_set_dead(player); // Restart the game
 				break;
 			case SDLK_s:
-				game_save(game);
+				game_save(game); // Save instantly the game
 				break;
 			case SDLK_UP:
 				player_set_current_way(player, NORTH);
@@ -236,15 +236,15 @@ int game_update(struct game* game) {
 void game_save(struct game* game) {
 	struct player* player = game_get_player(game);
 	FILE* f = NULL;
-	f=fopen("save/p_data.txt","w");
+	f=fopen("save/p_data.txt","w"); // Open a file in write mode
 	int k,b,l,r,n,m;
 	k=player_get_key(player);
 	b=player_get_nb_bomb(player);
 	l=player_get_nb_life(player);
 	r=player_get_range(player);
 	n=level_get_lvl_nb(game_get_curr_level(game));
-	m=level_get_map_nb(game_get_curr_level(game));
-	fprintf(f,"%d %d %d %d %d %d", l, b, r, k, n, m);
+	m=level_get_map_nb(game_get_curr_level(game)); // Get all the player characteristics
+	fprintf(f,"%d %d %d %d %d %d", l, b, r, k, n, m); // Write them
 	fclose(f);
 	if ( level_get_lvl_nb(game_get_curr_level(game)) == 0 ){
 		f=fopen("save/s_map_1_1.lvl","w");

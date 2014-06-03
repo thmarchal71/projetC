@@ -8,13 +8,19 @@
 
 struct player;
 
-// Creates a new player with a given number of available bombs
+// Creates a new player with given numbers of bombs, lifes, range
 struct player* player_init(int bomb_number, int life_number, int range_number);
+
+// Free player struct
 void player_free(struct player* player);
 
+// Return life state
 int player_get_dead(struct player* player);
+
+// Set player death
 void player_set_dead(struct player* player);
 
+// Return, Set 1=key, 0=no key
 int player_get_key(struct player* player);
 void player_set_key(struct player* player,int k);
 
@@ -22,7 +28,7 @@ void player_set_key(struct player* player,int k);
 int player_get_x(struct player* player);
 int player_get_y(struct player* player);
 
-// Returns, Decrease the invincible timer of the player
+// Return, Decrease, Set the invincible timer of the player
 int player_get_invincibleTimer(struct player* player);
 void player_dec_invincibleTimer(struct player* player);
 void player_set_invincible(struct player* player, int n);

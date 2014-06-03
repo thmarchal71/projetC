@@ -17,7 +17,6 @@ struct bomb {
 	enum state current_state;
 	int range;
 	float timer_bomb;
-	int explode;
 };
 
 
@@ -68,8 +67,6 @@ struct bomb* bomb_init(struct player* player) {
 	bomb->current_state = STATE1;
 	bomb->range = player_get_range(player);
 	bomb->timer_bomb = SDL_GetTicks();
-	bomb->explode = 0;
-
 	return bomb;
 }
 
@@ -132,12 +129,12 @@ void bomb_display(struct map* map, struct player* player,Mix_Chunk *explosion) {
 			} else if ( SDL_GetTicks() - bomb_get_timer(bomb) < 2000 ){
 				Mix_PlayChannel(-1,explosion, 0);
 				map_set_cell_type(map, bomb_get_x(bomb), bomb_get_y(bomb), CELL_EMPTY);							// Reset the CELL
-				bomb_destruct(map, player, bomb);																// Destruction of the elements
+				bomb_destruct(map, player, bomb,1);																// Destruction of the elements
 				map_set_bombs(map, list_find_delete(map_get_bombs(map),bomb_get_x(bomb), bomb_get_y(bomb)));	// Erase the bomb of the list
 				bomb_list = map_get_bombs(map);
 			} else {
 				map_set_cell_type(map, bomb_get_x(bomb), bomb_get_y(bomb), CELL_EMPTY);							// Reset the CELL
-				bomb_destruct(map, player, bomb);																// Destruction of the elements
+				bomb_destruct(map, player, bomb,0);	// Destruction of the elements
 				map_set_bombs(map, list_find_delete(map_get_bombs(map),bomb_get_x(bomb), bomb_get_y(bomb)));	// Erase the bomb of the list
 				bomb_list = map_get_bombs(map);	// Reload the list
 
@@ -367,19 +364,21 @@ void bomb_flame_display(struct map* map, struct player* player,struct bomb* bomb
 	}
 }
 
-void bomb_destruct(struct map* map, struct player* player,struct bomb* bomb){
+void bomb_destruct(struct map* map, struct player* player,struct bomb* bomb,int opt){
 
 	struct monster* monster;
-	if(player_get_x(player)==bomb_get_x(bomb) && player_get_y(player)==bomb_get_y(bomb)){
-		if (player_get_invincibleTimer(player) == 0) {
-			if (player_get_nb_life(player) == 0 ) {
-				player_set_dead(player);
-			} else {
-				player_dec_nb_life(player);
-				player_set_invincible(player, 60);
+	if(opt == 1){
+		if(player_get_x(player)==bomb_get_x(bomb) && player_get_y(player)==bomb_get_y(bomb)){
+			if (player_get_invincibleTimer(player) == 0) {
+				if (player_get_nb_life(player) == 0 ) {
+					player_set_dead(player);
+				} else {
+					player_dec_nb_life(player);
+					player_set_invincible(player, 60);
+				}
 			}
-		}
-	}		// Kill the player if he is touched by an explosion
+		}		// Kill the player if he is touched by an explosion
+	}
 //	if (map_get_cell_type(map, bomb->x , bomb->y)== CELL_MONSTER){
 	if ( monster_find(map, bomb->x, bomb->y) != NULL ){
 		monster=monster_find(map, bomb->x, bomb->y);
@@ -426,12 +425,14 @@ void bomb_destruct(struct map* map, struct player* player,struct bomb* bomb){
 				break;
 
 			case CELL_PLAYER:
-				if (player_get_invincibleTimer(player) == 0) {
-					if (player_get_nb_life(player) == 0 ) {
-						player_set_dead(player);
-					} else {
-						player_dec_nb_life(player);
-						player_set_invincible(player, 60);
+				if (opt == 1){
+					if (player_get_invincibleTimer(player) == 0) {
+						if (player_get_nb_life(player) == 0 ) {
+							player_set_dead(player);
+						} else {
+							player_dec_nb_life(player);
+							player_set_invincible(player, 60);
+						}
 					}
 				}
 				i = bomb->range +1;
@@ -488,12 +489,14 @@ void bomb_destruct(struct map* map, struct player* player,struct bomb* bomb){
 				break;
 
 			case CELL_PLAYER:
-				if (player_get_invincibleTimer(player) == 0) {
-					if (player_get_nb_life(player) == 0 ) {
-						player_set_dead(player);
-					} else {
-						player_dec_nb_life(player);
-						player_set_invincible(player, 60);
+				if(opt==1){
+					if (player_get_invincibleTimer(player) == 0) {
+						if (player_get_nb_life(player) == 0 ) {
+							player_set_dead(player);
+						} else {
+							player_dec_nb_life(player);
+							player_set_invincible(player, 60);
+						}
 					}
 				}
 				i = bomb->range +1;
@@ -550,12 +553,14 @@ void bomb_destruct(struct map* map, struct player* player,struct bomb* bomb){
 				break;
 
 			case CELL_PLAYER:
-				if (player_get_invincibleTimer(player) == 0) {
-					if (player_get_nb_life(player) == 0 ) {
-						player_set_dead(player);
-					} else {
-						player_dec_nb_life(player);
-						player_set_invincible(player, 60);
+				if(opt==1){
+					if (player_get_invincibleTimer(player) == 0) {
+						if (player_get_nb_life(player) == 0 ) {
+							player_set_dead(player);
+						} else {
+							player_dec_nb_life(player);
+							player_set_invincible(player, 60);
+						}
 					}
 				}
 				i = bomb->range +1;
@@ -612,12 +617,14 @@ void bomb_destruct(struct map* map, struct player* player,struct bomb* bomb){
 				break;
 
 			case CELL_PLAYER:
-				if (player_get_invincibleTimer(player) == 0) {
-					if (player_get_nb_life(player) == 0 ) {
-						player_set_dead(player);
-					} else {
-						player_dec_nb_life(player);
-						player_set_invincible(player, 60);
+				if(opt==1){
+					if (player_get_invincibleTimer(player) == 0) {
+						if (player_get_nb_life(player) == 0 ) {
+							player_set_dead(player);
+						} else {
+							player_dec_nb_life(player);
+							player_set_invincible(player, 60);
+						}
 					}
 				}
 				i = bomb->range +1;

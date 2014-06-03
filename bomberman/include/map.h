@@ -84,6 +84,8 @@ struct map;
 
 // Create a new empty map
 struct map* map_new(int width, int height);
+
+// Free map struct
 void map_free(struct map* map);
 
 
@@ -91,21 +93,31 @@ void map_free(struct map* map);
 int map_get_width(struct map* map);
 int map_get_height(struct map* map);
 
-// Return the type of a cell
+// Return the primary/basic type of a cell
 cell_type_t map_get_cell_type(struct map* map, int x, int y);
+
+// Return the entire type of a cell
 cell_type_t map_get_cell(struct map* map, int x, int y);
+
+// Return the bonus type of a cell
 cell_type_t map_get_cell_bonus_type(struct map* map, int x, int y);
+
+// Return the door type (closed, opened)
 cell_type_t map_get_cell_door_type(struct map* map, int x, int y);
 
+// Return the entire true type cell ( without the last bit bug )
 unsigned char map_get_true_cell(struct map* map, int x, int y);
 
 // Set the type of a cell
 void  map_set_cell_type(struct map* map, int x, int y, cell_type_t type);
 
+// Open a door
 void map_set_opened_door(struct map* map, int x, int y);
 
+// Return the goal type
 int map_get_goal_type(struct map* map, int x, int y);
 
+// Return the door number
 int map_get_door_number(struct map* map, int x, int y);
 
 // Test if (x,y) is within the map
@@ -113,8 +125,6 @@ int map_is_inside(struct map* map, int x, int y);
 
 // Return a default 12x12 static map
 struct map* map_get_default();
-
-struct map* map_get_nb();
 
 // Return the bomb list of the map
 struct list* map_get_bombs(struct map* map);
@@ -125,8 +135,13 @@ void map_set_bombs(struct map* map, struct list* bomb);
 // Insert a bomb in the map bomb list
 void map_insert_bomb(struct map* map, int x, int y, void* data);
 
+// Get the monster list of a map
 struct list* map_get_monsters(struct map* map);
+
+// Set a monster list on a map
 void map_set_monsters(struct map* map, struct list* monster);
+
+// Insert a monster on the map
 void map_insert_monster(struct map* map, int x, int y, void* data);
 
 // Display a bonus after the explosion of a case
@@ -135,8 +150,10 @@ void map_case_explosion(struct map* map, int x, int y);
 // Display the map on the screen
 void map_display(struct map* map);
 
+// Free the monster list
 void map_free_monster(struct map* map);
 
+// Return a map with a file .lvl
 struct map* map_load_from_file(char* data);
 
 #endif /* MAP_H_ */
