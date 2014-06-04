@@ -25,6 +25,8 @@
 #define BANNER_LIFE		"sprite/banner_life.png"
 #define BANNER_BOMB		"sprite/banner_bomb.png"
 #define BANNER_RANGE	"sprite/banner_range.png"
+#define BANNER_LVL1		"sprite/lvl1.png"
+#define BANNER_LVL2		"sprite/lvl2.png"
 #define BANNER_0		"sprite/banner_0.jpg"
 #define BANNER_1		"sprite/banner_1.jpg"
 #define BANNER_2		"sprite/banner_2.jpg"
@@ -87,6 +89,7 @@ SDL_Surface* banner_life;
 SDL_Surface* banner_bomb;
 SDL_Surface* banner_range;
 SDL_Surface* banner_line;
+SDL_Surface* banner_lvl[2];
 
 // pause
 SDL_Surface* pause;
@@ -156,6 +159,8 @@ void banner_load() {
 	numbers[8] = load_image(BANNER_8);
 	numbers[9] = load_image(BANNER_9);
 
+	banner_lvl[0] = load_image(BANNER_LVL1);
+	banner_lvl[1] = load_image(BANNER_LVL2);
 	// other banner sprites
 	banner_life = load_image(BANNER_LIFE);
 	banner_bomb = load_image(BANNER_BOMB);
@@ -169,6 +174,9 @@ void banner_unload() {
 		SDL_FreeSurface(numbers[i]);
 	}
 
+	for (int i = 0; i < 2; i++) {
+		SDL_FreeSurface(banner_lvl[i]);
+	}
 	// other banner sprites
 	SDL_FreeSurface(banner_life);
 	SDL_FreeSurface(banner_bomb);
@@ -287,6 +295,11 @@ void sprite_free() {
 SDL_Surface* sprite_get_number(short number) {
 	assert(number >= 0 && number <= 9);
 	return numbers[number];
+}
+
+SDL_Surface* sprite_get_level(short number) {
+	assert(number >= 0 && number <= 1);
+	return banner_lvl[number];
 }
 
 SDL_Surface* sprite_get_player(enum way direction) {

@@ -30,6 +30,7 @@ SDL_Surface* sprite_get_ground();
 
 
 SDL_Surface* sprite_get_number(short number);
+SDL_Surface* sprite_get_level(short number);
 SDL_Surface* sprite_get_banner_life();
 SDL_Surface* sprite_get_banner_bomb();
 SDL_Surface* sprite_get_banner_line();
